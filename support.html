@@ -11,23 +11,39 @@
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",sans-serif;line-height:1.6}
 .wrap{width:min(860px,calc(100% - 32px));margin:auto;padding:42px 0 64px}header{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:28px}
 .brand{display:flex;align-items:center;gap:12px;font-weight:800;font-size:22px;letter-spacing:-.02em;color:var(--text);text-decoration:none}.logo{width:38px;height:38px;border-radius:11px;background:var(--accent);display:grid;place-items:center;color:#111;font-weight:900}
-nav{display:flex;gap:14px;flex-wrap:wrap}nav a,.text-link{color:var(--text);text-decoration:none;font-weight:650}nav a:hover,.text-link:hover{text-decoration:underline}
+.header-actions{display:flex;align-items:center;gap:16px;flex-wrap:wrap}nav{display:flex;gap:14px;flex-wrap:wrap}nav a,.text-link{color:var(--text);text-decoration:none;font-weight:650}nav a:hover,.text-link:hover{text-decoration:underline}
+.language-switcher{display:inline-flex;align-items:center;gap:2px;padding:3px;border:1px solid var(--line);border-radius:999px;background:var(--card);box-shadow:0 3px 12px rgba(0,0,0,.04)}
+.language-switcher button{appearance:none;border:0;background:transparent;color:var(--muted);font:inherit;font-size:12px;font-weight:800;letter-spacing:.03em;line-height:1;min-width:36px;padding:9px 10px;border-radius:999px;cursor:pointer;transition:background .15s ease,color .15s ease,transform .15s ease}
+.language-switcher button:hover{color:var(--text)}.language-switcher button:active{transform:scale(.96)}.language-switcher button[aria-pressed="true"]{background:var(--accent);color:#111}
 .card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:28px;box-shadow:0 8px 28px rgba(0,0,0,.04)}
 h1{margin:0 0 8px;font-size:clamp(32px,6vw,52px);line-height:1.05;letter-spacing:-.04em}h2{margin-top:34px;margin-bottom:8px;font-size:22px}h3{margin-top:24px;margin-bottom:6px;font-size:17px}
 .muted{color:var(--muted)}.eyebrow{color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:12px;margin-bottom:12px}
+.notice{margin:18px 0;padding:16px;border:1px solid var(--line);border-radius:14px;background:var(--card)}
 .links{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:26px}.button{display:block;padding:16px;border:1px solid var(--line);border-radius:15px;color:var(--text);text-decoration:none;font-weight:750;background:var(--card)}
 .button:hover{border-color:var(--accent)}ul{padding-left:22px}footer{margin-top:28px;color:var(--muted);font-size:14px;text-align:center}
-@media(max-width:640px){header{align-items:flex-start;flex-direction:column}.links{grid-template-columns:1fr}.card{padding:22px;border-radius:18px}}
+[hidden]{display:none!important}
+@media(max-width:640px){header{align-items:flex-start;flex-direction:column}.header-actions{width:100%;justify-content:space-between;gap:12px}.links{grid-template-columns:1fr}.card{padding:22px;border-radius:18px}}
 </style>
 </head>
 <body>
 <div class="wrap">
 <header>
 <a class="brand" href="index.html"><span class="logo">W</span>Winpost</a>
-<nav><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="support.html">Support</a></nav>
+<div class="header-actions">
+<nav>
+<a href="privacy.html"><span data-language-label="en">Privacy</span><span data-language-label="es" hidden>Privacidad</span><span data-language-label="ca" hidden>Privacitat</span></a>
+<a href="terms.html"><span data-language-label="en">Terms</span><span data-language-label="es" hidden>Términos</span><span data-language-label="ca" hidden>Condicions</span></a>
+<a href="support.html"><span data-language-label="en">Support</span><span data-language-label="es" hidden>Soporte</span><span data-language-label="ca" hidden>Suport</span></a>
+</nav>
+<div class="language-switcher" role="group" aria-label="Language selector">
+<button type="button" data-language-option="en" aria-pressed="true" title="English">EN</button>
+<button type="button" data-language-option="es" aria-pressed="false" title="Español">ES</button>
+<button type="button" data-language-option="ca" aria-pressed="false" title="Català">CA</button>
+</div>
+</div>
 </header>
-
 <main class="card">
+<section data-language-content="en">
 <div class="eyebrow">Winpost Support</div>
 <h1>How can we help?</h1>
 <p class="muted">For support, privacy questions, giveaway corrections or technical issues, contact Winpost using the email below.</p>
@@ -49,9 +65,116 @@ h1{margin:0 0 8px;font-size:clamp(32px,6vw,52px);line-height:1.05;letter-spacing
 
 <h2>Privacy and Terms</h2>
 <p>Read our <a class="text-link" href="privacy.html">Privacy Policy</a> and <a class="text-link" href="terms.html">Terms of Use</a>.</p>
-</main>
+</section>
 
-<footer>© 2026 Winpost. All rights reserved.</footer>
+<section data-language-content="es" hidden>
+<div class="eyebrow">Soporte de Winpost</div>
+<h1>¿Cómo podemos ayudarte?</h1>
+<p class="muted">Para obtener soporte, hacer consultas sobre privacidad, solicitar correcciones de sorteos o informar de problemas técnicos, contacta con Winpost mediante el correo electrónico indicado a continuación.</p>
+
+<h2>Contacto</h2>
+<p>Correo electrónico: <a class="text-link" href="mailto:winpostapp@gmail.com">winpostapp@gmail.com</a></p>
+
+<h2>Correcciones de sorteos</h2>
+<p>Si un sorteo ha finalizado, contiene información incorrecta, no está disponible, resulta engañoso o necesita revisión por cualquier otro motivo, utiliza las herramientas de reporte de Winpost o contacta con nosotros por correo electrónico. Cuando sea posible, incluye el título del sorteo y la URL de la publicación original.</p>
+
+<h2>Winpost Plus</h2>
+<p>Las compras y suscripciones se procesan mediante Apple a través del App Store. Puedes gestionar o cancelar una suscripción activa desde los ajustes de suscripciones de tu Apple ID.</p>
+
+<h2>Notificaciones</h2>
+<p>El permiso para recibir notificaciones se puede modificar en Ajustes de iOS. Algunas funciones de notificaciones pueden requerir Winpost Plus.</p>
+
+<h2>Sorteos de terceros</h2>
+<p>Winpost ayuda a los usuarios a descubrir sorteos de terceros, pero normalmente no los administra. Las preguntas sobre la selección de ganadores, la entrega de premios o las reglas oficiales de un sorteo deben dirigirse a su organizador.</p>
+
+<h2>Privacidad y Términos</h2>
+<p>Consulta nuestra <a class="text-link" href="privacy.html">Política de privacidad</a> y nuestros <a class="text-link" href="terms.html">Términos de uso</a>.</p>
+</section>
+
+<section data-language-content="ca" hidden>
+<div class="eyebrow">Suport de Winpost</div>
+<h1>Com et podem ajudar?</h1>
+<p class="muted">Per obtenir suport, fer consultes sobre privacitat, demanar correccions de sortejos o informar de problemes tècnics, contacta amb Winpost mitjançant el correu electrònic indicat a continuació.</p>
+
+<h2>Contacte</h2>
+<p>Correu electrònic: <a class="text-link" href="mailto:winpostapp@gmail.com">winpostapp@gmail.com</a></p>
+
+<h2>Correccions de sortejos</h2>
+<p>Si un sorteig ha finalitzat, conté informació incorrecta, no està disponible, és enganyós o necessita revisió per qualsevol altre motiu, utilitza les eines de denúncia de Winpost o contacta amb nosaltres per correu electrònic. Quan sigui possible, inclou el títol del sorteig i l'URL de la publicació original.</p>
+
+<h2>Winpost Plus</h2>
+<p>Les compres i les subscripcions es processen mitjançant Apple a través de l'App Store. Pots gestionar o cancel·lar una subscripció activa des dels ajustos de subscripcions del teu Apple ID.</p>
+
+<h2>Notificacions</h2>
+<p>El permís per rebre notificacions es pot modificar als Ajustos d'iOS. Algunes funcions de notificacions poden requerir Winpost Plus.</p>
+
+<h2>Sortejos de tercers</h2>
+<p>Winpost ajuda els usuaris a descobrir sortejos de tercers, però normalment no els administra. Les preguntes sobre la selecció de guanyadors, el lliurament de premis o les bases oficials d'un sorteig s'han d'adreçar al seu organitzador.</p>
+
+<h2>Privacitat i Condicions</h2>
+<p>Consulta la nostra <a class="text-link" href="privacy.html">Política de privacitat</a> i les nostres <a class="text-link" href="terms.html">Condicions d'ús</a>.</p>
+</section>
+</main>
+<footer>
+<span data-language-label="en">© 2026 Winpost. All rights reserved.</span>
+<span data-language-label="es" hidden>© 2026 Winpost. Todos los derechos reservados.</span>
+<span data-language-label="ca" hidden>© 2026 Winpost. Tots els drets reservats.</span>
+</footer>
 </div>
+<script>
+(() => {
+  const STORAGE_KEY = 'winpostWebsiteLanguage';
+  const supported = ['en', 'es', 'ca'];
+  const pageMeta = {"en": {"title": "Support — Winpost", "description": "Winpost support and contact information."}, "es": {"title": "Soporte — Winpost", "description": "Información de soporte y contacto de Winpost."}, "ca": {"title": "Suport — Winpost", "description": "Informació de suport i contacte de Winpost."}};
+
+  const detectLanguage = () => {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (supported.includes(saved)) return saved;
+    } catch (_) {}
+
+    const languages = Array.isArray(navigator.languages) && navigator.languages.length
+      ? navigator.languages
+      : [navigator.language || 'en'];
+
+    for (const language of languages) {
+      const code = String(language).toLowerCase().split('-')[0];
+      if (supported.includes(code)) return code;
+    }
+    return 'en';
+  };
+
+  const setLanguage = (language) => {
+    const lang = supported.includes(language) ? language : 'en';
+    document.documentElement.lang = lang;
+
+    document.querySelectorAll('[data-language-content]').forEach((element) => {
+      element.hidden = element.dataset.languageContent !== lang;
+    });
+
+    document.querySelectorAll('[data-language-label]').forEach((element) => {
+      element.hidden = element.dataset.languageLabel !== lang;
+    });
+
+    document.querySelectorAll('[data-language-option]').forEach((button) => {
+      button.setAttribute('aria-pressed', button.dataset.languageOption === lang ? 'true' : 'false');
+    });
+
+    if (pageMeta[lang]) {
+      document.title = pageMeta[lang].title;
+      const description = document.querySelector('meta[name="description"]');
+      if (description) description.setAttribute('content', pageMeta[lang].description);
+    }
+
+    try { localStorage.setItem(STORAGE_KEY, lang); } catch (_) {}
+  };
+
+  document.querySelectorAll('[data-language-option]').forEach((button) => {
+    button.addEventListener('click', () => setLanguage(button.dataset.languageOption));
+  });
+
+  setLanguage(detectLanguage());
+})();
+</script>
 </body>
 </html>
