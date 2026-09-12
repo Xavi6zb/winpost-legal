@@ -15,6 +15,7 @@ nav{display:flex;gap:14px;flex-wrap:wrap}nav a,.text-link{color:var(--text);text
 .card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:28px;box-shadow:0 8px 28px rgba(0,0,0,.04)}
 h1{margin:0 0 8px;font-size:clamp(32px,6vw,52px);line-height:1.05;letter-spacing:-.04em}h2{margin-top:34px;margin-bottom:8px;font-size:22px}h3{margin-top:24px;margin-bottom:6px;font-size:17px}
 .muted{color:var(--muted)}.eyebrow{color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:12px;margin-bottom:12px}
+.notice{margin:18px 0;padding:16px;border:1px solid var(--line);border-radius:14px;background:var(--card)}
 .links{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:26px}.button{display:block;padding:16px;border:1px solid var(--line);border-radius:15px;color:var(--text);text-decoration:none;font-weight:750;background:var(--card)}
 .button:hover{border-color:var(--accent)}ul{padding-left:22px}footer{margin-top:28px;color:var(--muted);font-size:14px;text-align:center}
 @media(max-width:640px){header{align-items:flex-start;flex-direction:column}.links{grid-template-columns:1fr}.card{padding:22px;border-radius:18px}}
@@ -26,74 +27,110 @@ h1{margin:0 0 8px;font-size:clamp(32px,6vw,52px);line-height:1.05;letter-spacing
 <a class="brand" href="index.html"><span class="logo">W</span>Winpost</a>
 <nav><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="support.html">Support</a></nav>
 </header>
-
 <main class="card">
-<div class="eyebrow">Last updated: September 5, 2026</div>
+<div class="eyebrow">Last updated: September 12, 2026</div>
 <h1>Privacy Policy</h1>
-<p>This Privacy Policy explains how Winpost ("Winpost", "we", "us" or "our") handles information when you use the Winpost mobile application.</p>
+<p>This Privacy Policy explains how Winpost ("Winpost", "we", "us" or "our") handles information when you use the Winpost mobile application and related services.</p>
+
+<div class="notice"><strong>Anonymous analytics are optional.</strong> Winpost only sends the optional analytics described below after you choose to allow anonymous analytics. You can turn them off at any time from Winpost's Privacy settings. Declining analytics does not prevent you from using the normal features of Winpost or Winpost Plus.</div>
 
 <h2>1. Information we collect</h2>
-<h3>Email address</h3>
-<p>Email addresses may be collected for authorized moderator or administrative accounts used to access protected Winpost moderation functionality.</p>
 
-<h3>User content</h3>
-<p>If you submit a giveaway, report content, or send other information through features provided by Winpost, we may process the information you provide, such as URLs, notes, report reasons and related submission content.</p>
+<h3>Moderator account information</h3>
+<p>Email addresses and authentication information may be processed for authorized moderator or administrative accounts used to access protected Winpost moderation functionality. Normal users do not need a Winpost account.</p>
 
-<h3>User and device identifiers</h3>
-<p>Winpost may use account identifiers, installation identifiers, device-related identifiers and push notification tokens when needed to provide app functionality, synchronize preferences, protect the service and deliver notifications.</p>
+<h3>User submissions and reports</h3>
+<p>If you submit a giveaway, report content, or send other information through features provided by Winpost, we may process the information you choose to provide, such as giveaway URLs, optional titles or notes, report reasons, and related submission content. Giveaway submissions may also use a pseudonymous installation identifier for duplicate prevention, abuse prevention, and service integrity.</p>
+
+<h3>Notifications and device functionality</h3>
+<p>Winpost may process push notification tokens and related notification settings when needed to deliver notifications you request, such as giveaway reminders, creator alerts, featured alerts, or moderator notifications. Winpost does not use these tokens for advertising tracking.</p>
 
 <h3>Purchase information</h3>
-<p>If you subscribe to Winpost Plus, subscription status and related purchase information may be processed to unlock paid features and keep your subscription entitlement synchronized. Payments are processed by Apple through the App Store. Winpost does not receive your full payment card details.</p>
+<p>If you subscribe to Winpost Plus, Winpost may process subscription product identifiers, entitlement status, purchase or restore events, and related subscription information to provide paid functionality and understand subscription performance. Payments are processed by Apple through the App Store. Winpost does not receive your full payment card details.</p>
 
-<h3>Product interaction and preferences</h3>
-<p>Winpost may process app preferences and interaction information needed to personalize and operate the service, including followed creators, catalog country, language, notification preferences and Winpost Plus entitlement status.</p>
+<h3>Preferences used to operate the app</h3>
+<p>Winpost processes preferences needed to operate and personalize supported parts of the app, such as catalog country, whether Worldwide giveaways are included with that country, app language, light or dark appearance, followed creators, notification preferences, saved giveaways, reminders, and Winpost Plus entitlement status. Some preferences are stored only on your device, while information needed for server-backed functionality may be sent to Winpost's backend.</p>
+
+<h3>Optional anonymous usage analytics</h3>
+<p>If you choose to allow anonymous analytics, Winpost may collect product-interaction and usage information such as:</p>
+<ul>
+<li>App sessions, active usage time, session duration, and recent activity used to estimate how many opted-in users are currently active.</li>
+<li>Which Winpost tabs or features are opened and used.</li>
+<li>Giveaway detail opens, saves and unsaves, participation-state changes, reports, and reminder creation or removal.</li>
+<li>When an original giveaway link is opened, including the Winpost giveaway involved, the source position, and the destination platform category. Winpost does not collect what you do after leaving Winpost.</li>
+<li>Paywall opens, subscription purchase attempts, successful purchases, restore events, and simulated subscription-state changes when Winpost is operating in test mode.</li>
+<li>Creator follow or unfollow actions and featured-alert activation or deactivation.</li>
+<li>Catalog country, whether Worldwide is enabled with that country, Winpost language, effective light or dark appearance, and Free or Plus status.</li>
+<li>App version and build number for analytics reliability.</li>
+</ul>
+
+<p>For this analytics system, Winpost does not intentionally send your name, email address, precise location, date of birth, text you type, clipboard contents, screenshot contents, IDFA, or a stable advertising identifier.</p>
+<p>Analytics use a random pseudonymous token that rotates each UTC day. The purpose of that token is to estimate daily unique usage without maintaining a stable analytics identity across days. Winpost does not use this analytics token to identify you or combine it with third-party advertising data.</p>
 
 <h2>2. How we use information</h2>
 <ul>
-<li>Provide and maintain Winpost features.</li>
+<li>Provide, maintain and improve Winpost features.</li>
 <li>Authenticate authorized moderator accounts.</li>
-<li>Process user submissions and reports.</li>
+<li>Process giveaway submissions and reports.</li>
 <li>Deliver requested notifications and reminders.</li>
 <li>Personalize supported parts of the app.</li>
 <li>Verify and maintain subscription access.</li>
-<li>Protect Winpost from abuse, fraud or unauthorized access.</li>
+<li>Measure audience size, feature usage, engagement and subscription performance when anonymous analytics have been enabled.</li>
+<li>Understand which giveaways and app features are useful so we can improve Winpost.</li>
+<li>Protect Winpost from abuse, fraud, duplicate submissions or unauthorized access.</li>
 <li>Support users and maintain service reliability.</li>
 </ul>
 
-<h2>3. Third-party service providers</h2>
+<h2>3. Analytics consent and controls</h2>
+<p>Anonymous usage analytics are disabled unless you choose to allow them. If you decline, Winpost continues to operate normally without sending optional analytics events.</p>
+<p>You can withdraw your analytics consent at any time from the Privacy section inside Winpost. After analytics are disabled, Winpost stops sending new optional analytics events and heartbeats from that device.</p>
+<p>Because analytics records are deliberately de-identified and use a rotating daily token, existing anonymous analytics records are not designed to be connected back to a named individual.</p>
+
+<h2>4. Third-party service providers</h2>
 <p>Winpost relies on service providers that may process information on our behalf in order to operate the app.</p>
 <ul>
-<li><strong>Supabase</strong> may be used for backend infrastructure, authentication, database storage and server-side functionality.</li>
-<li><strong>Apple</strong> provides App Store purchases, StoreKit and Apple Push Notification service functionality.</li>
-<li>Winpost may open or reference content hosted on third-party platforms such as Instagram, TikTok and YouTube. Your use of those services is governed by their own privacy policies and terms.</li>
+<li><strong>Supabase</strong> may be used for backend infrastructure, authentication, database storage, analytics storage, and server-side functionality.</li>
+<li><strong>Apple</strong> provides App Store purchases, StoreKit, Apple Push Notification service functionality, and other iOS platform services.</li>
+<li>Winpost may open or reference content hosted on third-party platforms or websites such as Instagram, TikTok, YouTube, and giveaway organizers' websites. Once you open an external service, that service's own privacy policy and terms apply.</li>
 </ul>
 
-<h2>4. Advertising and tracking</h2>
-<p>Winpost does not use the information described in this policy for cross-company advertising tracking and does not sell personal information to data brokers.</p>
+<h2>5. Advertising and tracking</h2>
+<p>Winpost does not use the information described in this policy for cross-company advertising tracking, does not sell personal information to data brokers, and does not use anonymous analytics to create targeted advertising profiles.</p>
+<p>Winpost does not use IDFA for the analytics system described above and does not combine Winpost analytics with data from other companies for targeted advertising or advertising measurement.</p>
 
-<h2>5. Data retention</h2>
-<p>We retain information only for as long as reasonably necessary to operate Winpost, provide the relevant feature, comply with legal obligations, resolve disputes, prevent abuse and enforce our agreements.</p>
+<h2>6. Data retention</h2>
+<p>We retain information only for as long as reasonably necessary for the purpose for which it was collected, to operate Winpost, comply with legal obligations, resolve disputes, prevent abuse, and enforce our agreements.</p>
+<p>Raw anonymous analytics session and event records are retained for a maximum of approximately 90 days and may be deleted sooner. Aggregated statistics that no longer reasonably identify or single out an individual may be retained for longer for product planning and historical analysis.</p>
+<p>User submissions, moderation records, account information, and security-related records may be retained for different periods when necessary to operate or protect the service or comply with legal obligations.</p>
 
-<h2>6. Data security</h2>
-<p>We use reasonable technical and organizational measures intended to protect information handled by Winpost. No online service can guarantee absolute security.</p>
+<h2>7. Data security</h2>
+<p>We use reasonable technical and organizational measures intended to protect information handled by Winpost, including access controls for moderator-only analytics and moderation functionality. No online service can guarantee absolute security.</p>
 
-<h2>7. Your choices and requests</h2>
-<p>You may disable notifications in iOS Settings and change supported preferences inside Winpost.</p>
-<p>To request access, correction or deletion of information associated with you, contact <a class="text-link" href="mailto:winpostapp@gmail.com">winpostapp@gmail.com</a>.</p>
+<h2>8. Your choices and requests</h2>
+<p>You can disable anonymous analytics in Winpost's Privacy settings, change supported app preferences inside Winpost, and manage notification permissions in iOS Settings.</p>
+<p>To request access, correction, or deletion of information that can reasonably be associated with you, contact <a class="text-link" href="mailto:winpostapp@gmail.com">winpostapp@gmail.com</a>. Some anonymous analytics records cannot be retrieved or deleted on an individual basis because they are intentionally collected without a stable identity that can be linked back to you.</p>
 
-<h2>8. Children</h2>
-<p>Winpost is not intended to knowingly collect personal information from children in violation of applicable law. Giveaway eligibility, including age restrictions, is determined by each giveaway organizer and its official rules.</p>
+<h2>9. Children</h2>
+<p>Winpost is not intended to knowingly collect personal information from children in violation of applicable law. Giveaway eligibility, including age restrictions, is determined by each giveaway organizer and its official rules. Where Winpost uses an age preference for filtering, that information is intended to remain on the device and is not included in anonymous analytics.</p>
 
-<h2>9. International processing</h2>
+<h2>10. International processing</h2>
 <p>Information may be processed in countries other than the country where you live, depending on the infrastructure and service providers used by Winpost.</p>
 
-<h2>10. Changes to this policy</h2>
+<h2>11. External giveaway content</h2>
+<p>Winpost is a discovery and organization service for promotional opportunities operated by independent third parties. Winpost does not accept entries for or select winners of the third-party giveaways referenced in the app. Participation occurs through the organizer's external service and is governed by that organizer's rules and privacy practices.</p>
+
+<h2>12. Changes to this policy</h2>
 <p>We may update this Privacy Policy as Winpost changes. The date at the top of this page indicates when it was last updated.</p>
 
-<h2>11. Contact</h2>
+<h2>13. Contact</h2>
 <p>Privacy questions can be sent to <a class="text-link" href="mailto:winpostapp@gmail.com">winpostapp@gmail.com</a>.</p>
-</main>
 
+<div class="links">
+<a class="button" href="terms.html">Terms of Use</a>
+<a class="button" href="support.html">Support</a>
+<a class="button" href="mailto:winpostapp@gmail.com">Contact</a>
+</div>
+</main>
 <footer>© 2026 Winpost. All rights reserved.</footer>
 </div>
 </body>
