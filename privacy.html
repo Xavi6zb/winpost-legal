@@ -11,23 +11,39 @@
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",sans-serif;line-height:1.6}
 .wrap{width:min(860px,calc(100% - 32px));margin:auto;padding:42px 0 64px}header{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:28px}
 .brand{display:flex;align-items:center;gap:12px;font-weight:800;font-size:22px;letter-spacing:-.02em;color:var(--text);text-decoration:none}.logo{width:38px;height:38px;border-radius:11px;background:var(--accent);display:grid;place-items:center;color:#111;font-weight:900}
-nav{display:flex;gap:14px;flex-wrap:wrap}nav a,.text-link{color:var(--text);text-decoration:none;font-weight:650}nav a:hover,.text-link:hover{text-decoration:underline}
+.header-actions{display:flex;align-items:center;gap:16px;flex-wrap:wrap}nav{display:flex;gap:14px;flex-wrap:wrap}nav a,.text-link{color:var(--text);text-decoration:none;font-weight:650}nav a:hover,.text-link:hover{text-decoration:underline}
+.language-switcher{display:inline-flex;align-items:center;gap:2px;padding:3px;border:1px solid var(--line);border-radius:999px;background:var(--card);box-shadow:0 3px 12px rgba(0,0,0,.04)}
+.language-switcher button{appearance:none;border:0;background:transparent;color:var(--muted);font:inherit;font-size:12px;font-weight:800;letter-spacing:.03em;line-height:1;min-width:36px;padding:9px 10px;border-radius:999px;cursor:pointer;transition:background .15s ease,color .15s ease,transform .15s ease}
+.language-switcher button:hover{color:var(--text)}.language-switcher button:active{transform:scale(.96)}.language-switcher button[aria-pressed="true"]{background:var(--accent);color:#111}
 .card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:28px;box-shadow:0 8px 28px rgba(0,0,0,.04)}
 h1{margin:0 0 8px;font-size:clamp(32px,6vw,52px);line-height:1.05;letter-spacing:-.04em}h2{margin-top:34px;margin-bottom:8px;font-size:22px}h3{margin-top:24px;margin-bottom:6px;font-size:17px}
 .muted{color:var(--muted)}.eyebrow{color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:12px;margin-bottom:12px}
 .notice{margin:18px 0;padding:16px;border:1px solid var(--line);border-radius:14px;background:var(--card)}
 .links{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:26px}.button{display:block;padding:16px;border:1px solid var(--line);border-radius:15px;color:var(--text);text-decoration:none;font-weight:750;background:var(--card)}
 .button:hover{border-color:var(--accent)}ul{padding-left:22px}footer{margin-top:28px;color:var(--muted);font-size:14px;text-align:center}
-@media(max-width:640px){header{align-items:flex-start;flex-direction:column}.links{grid-template-columns:1fr}.card{padding:22px;border-radius:18px}}
+[hidden]{display:none!important}
+@media(max-width:640px){header{align-items:flex-start;flex-direction:column}.header-actions{width:100%;justify-content:space-between;gap:12px}.links{grid-template-columns:1fr}.card{padding:22px;border-radius:18px}}
 </style>
 </head>
 <body>
 <div class="wrap">
 <header>
 <a class="brand" href="index.html"><span class="logo">W</span>Winpost</a>
-<nav><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="support.html">Support</a></nav>
+<div class="header-actions">
+<nav>
+<a href="privacy.html"><span data-language-label="en">Privacy</span><span data-language-label="es" hidden>Privacidad</span><span data-language-label="ca" hidden>Privacitat</span></a>
+<a href="terms.html"><span data-language-label="en">Terms</span><span data-language-label="es" hidden>Términos</span><span data-language-label="ca" hidden>Condicions</span></a>
+<a href="support.html"><span data-language-label="en">Support</span><span data-language-label="es" hidden>Soporte</span><span data-language-label="ca" hidden>Suport</span></a>
+</nav>
+<div class="language-switcher" role="group" aria-label="Language selector">
+<button type="button" data-language-option="en" aria-pressed="true" title="English">EN</button>
+<button type="button" data-language-option="es" aria-pressed="false" title="Español">ES</button>
+<button type="button" data-language-option="ca" aria-pressed="false" title="Català">CA</button>
+</div>
+</div>
 </header>
 <main class="card">
+<section data-language-content="en">
 <div class="eyebrow">Last updated: September 12, 2026</div>
 <h1>Privacy Policy</h1>
 <p>This Privacy Policy explains how Winpost ("Winpost", "we", "us" or "our") handles information when you use the Winpost mobile application and related services.</p>
@@ -130,8 +146,278 @@ h1{margin:0 0 8px;font-size:clamp(32px,6vw,52px);line-height:1.05;letter-spacing
 <a class="button" href="support.html">Support</a>
 <a class="button" href="mailto:winpostapp@gmail.com">Contact</a>
 </div>
-</main>
-<footer>© 2026 Winpost. All rights reserved.</footer>
+</section>
+
+<section data-language-content="es" hidden>
+<div class="eyebrow">Última actualización: 12 de septiembre de 2026</div>
+<h1>Política de privacidad</h1>
+<p>Esta Política de privacidad explica cómo Winpost ("Winpost", "nosotros" o "nuestro") trata la información cuando utilizas la aplicación móvil Winpost y los servicios relacionados.</p>
+
+<div class="notice"><strong>Las analíticas anónimas son opcionales.</strong> Winpost solo envía las analíticas opcionales descritas a continuación después de que decidas permitir las analíticas anónimas. Puedes desactivarlas en cualquier momento desde los ajustes de Privacidad de Winpost. Rechazar las analíticas no impide utilizar las funciones normales de Winpost ni Winpost Plus.</div>
+
+<h2>1. Información que recopilamos</h2>
+
+<h3>Información de cuentas de moderadores</h3>
+<p>Las direcciones de correo electrónico y la información de autenticación pueden tratarse para cuentas autorizadas de moderadores o administradores utilizadas para acceder a funciones protegidas de moderación de Winpost. Los usuarios normales no necesitan una cuenta de Winpost.</p>
+
+<h3>Envíos y reportes de usuarios</h3>
+<p>Si envías un sorteo, reportas contenido o proporcionas otra información mediante funciones de Winpost, podemos tratar la información que decidas facilitar, como URL de sorteos, títulos o notas opcionales, motivos del reporte y contenido relacionado con el envío. Los envíos de sorteos también pueden utilizar un identificador seudónimo de instalación para evitar duplicados y abusos y para proteger la integridad del servicio.</p>
+
+<h3>Notificaciones y funcionalidad del dispositivo</h3>
+<p>Winpost puede tratar tokens de notificaciones push y ajustes relacionados cuando sea necesario para entregar notificaciones que hayas solicitado, como recordatorios de sorteos, alertas de creadores, alertas de destacados o notificaciones para moderadores. Winpost no utiliza estos tokens para seguimiento publicitario.</p>
+
+<h3>Información de compras</h3>
+<p>Si te suscribes a Winpost Plus, Winpost puede tratar identificadores de productos de suscripción, el estado de tus derechos de acceso, eventos de compra o restauración e información relacionada con la suscripción para proporcionar funciones de pago y comprender el rendimiento de las suscripciones. Los pagos los procesa Apple a través del App Store. Winpost no recibe los datos completos de tu tarjeta de pago.</p>
+
+<h3>Preferencias utilizadas para el funcionamiento de la app</h3>
+<p>Winpost trata las preferencias necesarias para operar y personalizar las partes compatibles de la app, como el país del catálogo, si se incluyen sorteos Worldwide junto con ese país, el idioma de la app, la apariencia clara u oscura, los creadores seguidos, las preferencias de notificaciones, los sorteos guardados, los recordatorios y el estado de acceso a Winpost Plus. Algunas preferencias se almacenan únicamente en tu dispositivo, mientras que la información necesaria para funciones respaldadas por servidor puede enviarse al backend de Winpost.</p>
+
+<h3>Analíticas anónimas y opcionales de uso</h3>
+<p>Si decides permitir las analíticas anónimas, Winpost puede recopilar información de interacción con el producto y de uso, como:</p>
+<ul>
+<li>Sesiones de la app, tiempo de uso activo, duración de la sesión y actividad reciente utilizados para estimar cuántos usuarios que han dado su consentimiento están activos en ese momento.</li>
+<li>Qué pestañas o funciones de Winpost se abren y se utilizan.</li>
+<li>Aperturas de detalles de sorteos, guardados y eliminaciones de guardados, cambios del estado de participación, reportes y creación o eliminación de recordatorios.</li>
+<li>Cuando se abre el enlace original de un sorteo, incluido el sorteo de Winpost implicado, la posición de la fuente y la categoría de la plataforma de destino. Winpost no recopila lo que haces después de salir de Winpost.</li>
+<li>Aperturas del paywall, intentos de compra de suscripción, compras completadas, restauraciones y cambios simulados del estado de suscripción cuando Winpost funciona en modo de prueba.</li>
+<li>Acciones de seguir o dejar de seguir creadores y activación o desactivación de alertas de destacados.</li>
+<li>País del catálogo, si Worldwide está activado junto con ese país, idioma de Winpost, apariencia clara u oscura efectiva y estado Free o Plus.</li>
+<li>Versión y número de compilación de la app para garantizar la fiabilidad de las analíticas.</li>
+</ul>
+
+<p>En este sistema de analíticas, Winpost no envía intencionadamente tu nombre, dirección de correo electrónico, ubicación precisa, fecha de nacimiento, texto que escribas, contenido del portapapeles, contenido de capturas de pantalla, IDFA ni un identificador publicitario estable.</p>
+<p>Las analíticas utilizan un token seudónimo aleatorio que cambia cada día UTC. Su finalidad es estimar el uso único diario sin mantener una identidad analítica estable entre días. Winpost no utiliza este token de analíticas para identificarte ni lo combina con datos publicitarios de terceros.</p>
+
+<h2>2. Cómo utilizamos la información</h2>
+<ul>
+<li>Proporcionar, mantener y mejorar las funciones de Winpost.</li>
+<li>Autenticar cuentas autorizadas de moderadores.</li>
+<li>Procesar envíos y reportes de sorteos.</li>
+<li>Entregar las notificaciones y recordatorios solicitados.</li>
+<li>Personalizar las partes compatibles de la app.</li>
+<li>Verificar y mantener el acceso a suscripciones.</li>
+<li>Medir el tamaño de la audiencia, el uso de funciones, la interacción y el rendimiento de las suscripciones cuando se han activado las analíticas anónimas.</li>
+<li>Comprender qué sorteos y funciones de la app son útiles para poder mejorar Winpost.</li>
+<li>Proteger Winpost frente a abusos, fraude, envíos duplicados o accesos no autorizados.</li>
+<li>Dar soporte a los usuarios y mantener la fiabilidad del servicio.</li>
+</ul>
+
+<h2>3. Consentimiento y controles de analíticas</h2>
+<p>Las analíticas anónimas de uso están desactivadas salvo que decidas permitirlas. Si las rechazas, Winpost continúa funcionando con normalidad sin enviar eventos de analíticas opcionales.</p>
+<p>Puedes retirar tu consentimiento para las analíticas en cualquier momento desde la sección Privacidad de Winpost. Tras desactivarlas, Winpost deja de enviar nuevos eventos y señales periódicas opcionales de analíticas desde ese dispositivo.</p>
+<p>Dado que los registros de analíticas están deliberadamente desidentificados y utilizan un token diario rotatorio, los registros anónimos existentes no están diseñados para vincularse de nuevo con una persona identificada.</p>
+
+<h2>4. Proveedores de servicios de terceros</h2>
+<p>Winpost depende de proveedores de servicios que pueden tratar información en nuestro nombre para hacer funcionar la app.</p>
+<ul>
+<li><strong>Supabase</strong> puede utilizarse para infraestructura backend, autenticación, almacenamiento de bases de datos, almacenamiento de analíticas y funciones del servidor.</li>
+<li><strong>Apple</strong> proporciona las compras del App Store, StoreKit, la funcionalidad del servicio Apple Push Notification y otros servicios de la plataforma iOS.</li>
+<li>Winpost puede abrir o hacer referencia a contenido alojado en plataformas o sitios web de terceros, como Instagram, TikTok, YouTube y los sitios web de los organizadores de sorteos. Cuando abres un servicio externo, se aplican la política de privacidad y los términos propios de ese servicio.</li>
+</ul>
+
+<h2>5. Publicidad y seguimiento</h2>
+<p>Winpost no utiliza la información descrita en esta política para realizar seguimiento publicitario entre empresas, no vende información personal a corredores de datos y no utiliza las analíticas anónimas para crear perfiles de publicidad dirigida.</p>
+<p>Winpost no utiliza IDFA para el sistema de analíticas descrito anteriormente y no combina las analíticas de Winpost con datos de otras empresas para publicidad dirigida ni para medición publicitaria.</p>
+
+<h2>6. Conservación de datos</h2>
+<p>Conservamos la información únicamente durante el tiempo razonablemente necesario para la finalidad para la que fue recopilada, para operar Winpost, cumplir obligaciones legales, resolver disputas, prevenir abusos y hacer cumplir nuestros acuerdos.</p>
+<p>Los registros sin procesar de sesiones y eventos de analíticas anónimas se conservan durante un máximo aproximado de 90 días y pueden eliminarse antes. Las estadísticas agregadas que ya no permitan razonablemente identificar o individualizar a una persona pueden conservarse durante más tiempo para planificación de producto y análisis históricos.</p>
+<p>Los envíos de usuarios, los registros de moderación, la información de cuentas y los registros relacionados con la seguridad pueden conservarse durante periodos diferentes cuando sea necesario para operar o proteger el servicio o cumplir obligaciones legales.</p>
+
+<h2>7. Seguridad de los datos</h2>
+<p>Utilizamos medidas técnicas y organizativas razonables destinadas a proteger la información tratada por Winpost, incluidos controles de acceso para funciones de analíticas y moderación exclusivas de moderadores. Ningún servicio en línea puede garantizar una seguridad absoluta.</p>
+
+<h2>8. Tus opciones y solicitudes</h2>
+<p>Puedes desactivar las analíticas anónimas en los ajustes de Privacidad de Winpost, cambiar las preferencias compatibles de la app dentro de Winpost y gestionar los permisos de notificaciones en Ajustes de iOS.</p>
+<p>Para solicitar acceso, corrección o eliminación de información que pueda asociarse razonablemente contigo, contacta con <a class="text-link" href="mailto:winpostapp@gmail.com">winpostapp@gmail.com</a>. Algunos registros de analíticas anónimas no pueden recuperarse ni eliminarse de forma individual porque se recopilan intencionadamente sin una identidad estable que pueda vincularse de nuevo contigo.</p>
+
+<h2>9. Menores</h2>
+<p>Winpost no está destinado a recopilar conscientemente información personal de menores infringiendo la legislación aplicable. La elegibilidad para los sorteos, incluidas las restricciones de edad, la determina cada organizador y sus reglas oficiales. Cuando Winpost utiliza una preferencia de edad para filtrar, esa información está destinada a permanecer en el dispositivo y no se incluye en las analíticas anónimas.</p>
+
+<h2>10. Tratamiento internacional</h2>
+<p>La información puede tratarse en países distintos del país en el que resides, según la infraestructura y los proveedores de servicios utilizados por Winpost.</p>
+
+<h2>11. Contenido externo de sorteos</h2>
+<p>Winpost es un servicio de descubrimiento y organización de oportunidades promocionales operadas por terceros independientes. Winpost no acepta participaciones ni selecciona ganadores de los sorteos de terceros mencionados en la app. La participación se realiza a través del servicio externo del organizador y se rige por sus reglas y prácticas de privacidad.</p>
+
+<h2>12. Cambios en esta política</h2>
+<p>Podemos actualizar esta Política de privacidad a medida que Winpost cambie. La fecha situada en la parte superior de esta página indica cuándo se actualizó por última vez.</p>
+
+<h2>13. Contacto</h2>
+<p>Las preguntas sobre privacidad pueden enviarse a <a class="text-link" href="mailto:winpostapp@gmail.com">winpostapp@gmail.com</a>.</p>
+
+<div class="links">
+<a class="button" href="terms.html">Términos de uso</a>
+<a class="button" href="support.html">Soporte</a>
+<a class="button" href="mailto:winpostapp@gmail.com">Contacto</a>
 </div>
+</section>
+
+<section data-language-content="ca" hidden>
+<div class="eyebrow">Darrera actualització: 12 de setembre de 2026</div>
+<h1>Política de privacitat</h1>
+<p>Aquesta Política de privacitat explica com Winpost ("Winpost", "nosaltres" o "nostre") tracta la informació quan utilitzes l'aplicació mòbil Winpost i els serveis relacionats.</p>
+
+<div class="notice"><strong>Les analítiques anònimes són opcionals.</strong> Winpost només envia les analítiques opcionals descrites a continuació després que decideixis permetre les analítiques anònimes. Les pots desactivar en qualsevol moment des dels ajustos de Privacitat de Winpost. Rebutjar les analítiques no impedeix utilitzar les funcions normals de Winpost ni Winpost Plus.</div>
+
+<h2>1. Informació que recopilem</h2>
+
+<h3>Informació dels comptes de moderadors</h3>
+<p>Les adreces de correu electrònic i la informació d'autenticació es poden tractar per a comptes autoritzats de moderadors o administradors utilitzats per accedir a funcions protegides de moderació de Winpost. Els usuaris normals no necessiten un compte de Winpost.</p>
+
+<h3>Enviaments i denúncies dels usuaris</h3>
+<p>Si envies un sorteig, denuncies contingut o proporciones altra informació mitjançant funcions de Winpost, podem tractar la informació que decideixis facilitar, com ara URL de sortejos, títols o notes opcionals, motius de la denúncia i contingut relacionat amb l'enviament. Els enviaments de sortejos també poden utilitzar un identificador pseudònim d'instal·lació per evitar duplicats i abusos i per protegir la integritat del servei.</p>
+
+<h3>Notificacions i funcionalitat del dispositiu</h3>
+<p>Winpost pot tractar tokens de notificacions push i ajustos relacionats quan sigui necessari per lliurar notificacions que hagis sol·licitat, com ara recordatoris de sortejos, alertes de creadors, alertes de destacats o notificacions per a moderadors. Winpost no utilitza aquests tokens per al seguiment publicitari.</p>
+
+<h3>Informació de compres</h3>
+<p>Si et subscrius a Winpost Plus, Winpost pot tractar identificadors de productes de subscripció, l'estat dels drets d'accés, esdeveniments de compra o restauració i informació relacionada amb la subscripció per proporcionar funcions de pagament i entendre el rendiment de les subscripcions. Els pagaments els processa Apple a través de l'App Store. Winpost no rep les dades completes de la teva targeta de pagament.</p>
+
+<h3>Preferències utilitzades per al funcionament de l'app</h3>
+<p>Winpost tracta les preferències necessàries per operar i personalitzar les parts compatibles de l'app, com ara el país del catàleg, si s'hi inclouen sortejos Worldwide juntament amb aquest país, l'idioma de l'app, l'aparença clara o fosca, els creadors seguits, les preferències de notificacions, els sortejos desats, els recordatoris i l'estat d'accés a Winpost Plus. Algunes preferències s'emmagatzemen únicament al teu dispositiu, mentre que la informació necessària per a funcions amb suport del servidor es pot enviar al backend de Winpost.</p>
+
+<h3>Analítiques anònimes i opcionals d'ús</h3>
+<p>Si decideixes permetre les analítiques anònimes, Winpost pot recopilar informació d'interacció amb el producte i d'ús, com ara:</p>
+<ul>
+<li>Sessions de l'app, temps d'ús actiu, durada de la sessió i activitat recent utilitzats per estimar quants usuaris que han donat el seu consentiment estan actius en aquell moment.</li>
+<li>Quines pestanyes o funcions de Winpost s'obren i s'utilitzen.</li>
+<li>Obertures de detalls de sortejos, desats i eliminacions de desats, canvis de l'estat de participació, denúncies i creació o eliminació de recordatoris.</li>
+<li>Quan s'obre l'enllaç original d'un sorteig, incloent-hi el sorteig de Winpost implicat, la posició de la font i la categoria de la plataforma de destinació. Winpost no recopila què fas després de sortir de Winpost.</li>
+<li>Obertures del paywall, intents de compra de subscripció, compres completades, restauracions i canvis simulats de l'estat de subscripció quan Winpost funciona en mode de prova.</li>
+<li>Accions de seguir o deixar de seguir creadors i activació o desactivació d'alertes de destacats.</li>
+<li>País del catàleg, si Worldwide està activat juntament amb aquest país, idioma de Winpost, aparença clara o fosca efectiva i estat Free o Plus.</li>
+<li>Versió i número de compilació de l'app per garantir la fiabilitat de les analítiques.</li>
+</ul>
+
+<p>En aquest sistema d'analítiques, Winpost no envia intencionadament el teu nom, adreça de correu electrònic, ubicació precisa, data de naixement, text que escriguis, contingut del porta-retalls, contingut de captures de pantalla, IDFA ni un identificador publicitari estable.</p>
+<p>Les analítiques utilitzen un token pseudònim aleatori que canvia cada dia UTC. La finalitat d'aquest token és estimar l'ús únic diari sense mantenir una identitat analítica estable entre dies. Winpost no utilitza aquest token d'analítiques per identificar-te ni el combina amb dades publicitàries de tercers.</p>
+
+<h2>2. Com utilitzem la informació</h2>
+<ul>
+<li>Proporcionar, mantenir i millorar les funcions de Winpost.</li>
+<li>Autenticar comptes autoritzats de moderadors.</li>
+<li>Processar enviaments i denúncies de sortejos.</li>
+<li>Lliurar les notificacions i els recordatoris sol·licitats.</li>
+<li>Personalitzar les parts compatibles de l'app.</li>
+<li>Verificar i mantenir l'accés a subscripcions.</li>
+<li>Mesurar la mida de l'audiència, l'ús de funcions, la interacció i el rendiment de les subscripcions quan s'han activat les analítiques anònimes.</li>
+<li>Entendre quins sortejos i funcions de l'app són útils per poder millorar Winpost.</li>
+<li>Protegir Winpost davant d'abusos, frau, enviaments duplicats o accessos no autoritzats.</li>
+<li>Donar suport als usuaris i mantenir la fiabilitat del servei.</li>
+</ul>
+
+<h2>3. Consentiment i controls d'analítiques</h2>
+<p>Les analítiques anònimes d'ús estan desactivades tret que decideixis permetre-les. Si les rebutges, Winpost continua funcionant amb normalitat sense enviar esdeveniments d'analítiques opcionals.</p>
+<p>Pots retirar el teu consentiment per a les analítiques en qualsevol moment des de la secció Privacitat de Winpost. Després de desactivar-les, Winpost deixa d'enviar nous esdeveniments i senyals periòdics opcionals d'analítiques des d'aquell dispositiu.</p>
+<p>Com que els registres d'analítiques estan deliberadament desidentificats i utilitzen un token diari rotatori, els registres anònims existents no estan dissenyats per tornar-se a vincular amb una persona identificada.</p>
+
+<h2>4. Proveïdors de serveis de tercers</h2>
+<p>Winpost depèn de proveïdors de serveis que poden tractar informació en nom nostre per fer funcionar l'app.</p>
+<ul>
+<li><strong>Supabase</strong> es pot utilitzar per a infraestructura backend, autenticació, emmagatzematge de bases de dades, emmagatzematge d'analítiques i funcions del servidor.</li>
+<li><strong>Apple</strong> proporciona les compres de l'App Store, StoreKit, la funcionalitat del servei Apple Push Notification i altres serveis de la plataforma iOS.</li>
+<li>Winpost pot obrir o fer referència a contingut allotjat en plataformes o llocs web de tercers, com Instagram, TikTok, YouTube i els llocs web dels organitzadors de sortejos. Quan obres un servei extern, s'apliquen la política de privacitat i les condicions pròpies d'aquell servei.</li>
+</ul>
+
+<h2>5. Publicitat i seguiment</h2>
+<p>Winpost no utilitza la informació descrita en aquesta política per fer seguiment publicitari entre empreses, no ven informació personal a intermediaris de dades i no utilitza les analítiques anònimes per crear perfils de publicitat dirigida.</p>
+<p>Winpost no utilitza IDFA per al sistema d'analítiques descrit anteriorment i no combina les analítiques de Winpost amb dades d'altres empreses per a publicitat dirigida ni per a mesurament publicitari.</p>
+
+<h2>6. Conservació de dades</h2>
+<p>Conservem la informació només durant el temps raonablement necessari per a la finalitat per a la qual es va recopilar, per operar Winpost, complir obligacions legals, resoldre disputes, prevenir abusos i fer complir els nostres acords.</p>
+<p>Els registres sense processar de sessions i esdeveniments d'analítiques anònimes es conserven durant un màxim aproximat de 90 dies i es poden eliminar abans. Les estadístiques agregades que ja no permetin raonablement identificar o individualitzar una persona es poden conservar durant més temps per a planificació de producte i anàlisi històrica.</p>
+<p>Els enviaments dels usuaris, els registres de moderació, la informació dels comptes i els registres relacionats amb la seguretat es poden conservar durant períodes diferents quan sigui necessari per operar o protegir el servei o complir obligacions legals.</p>
+
+<h2>7. Seguretat de les dades</h2>
+<p>Utilitzem mesures tècniques i organitzatives raonables destinades a protegir la informació tractada per Winpost, inclosos controls d'accés per a funcions d'analítiques i moderació exclusives de moderadors. Cap servei en línia pot garantir una seguretat absoluta.</p>
+
+<h2>8. Les teves opcions i sol·licituds</h2>
+<p>Pots desactivar les analítiques anònimes als ajustos de Privacitat de Winpost, canviar les preferències compatibles de l'app dins de Winpost i gestionar els permisos de notificacions als Ajustos d'iOS.</p>
+<p>Per sol·licitar accés, correcció o eliminació d'informació que es pugui associar raonablement amb tu, contacta amb <a class="text-link" href="mailto:winpostapp@gmail.com">winpostapp@gmail.com</a>. Alguns registres d'analítiques anònimes no es poden recuperar ni eliminar de manera individual perquè es recopilen intencionadament sense una identitat estable que es pugui tornar a vincular amb tu.</p>
+
+<h2>9. Menors</h2>
+<p>Winpost no està destinat a recopilar conscientment informació personal de menors infringint la legislació aplicable. L'elegibilitat per als sortejos, incloses les restriccions d'edat, la determina cada organitzador i les seves bases oficials. Quan Winpost utilitza una preferència d'edat per filtrar, aquesta informació està destinada a romandre al dispositiu i no s'inclou en les analítiques anònimes.</p>
+
+<h2>10. Tractament internacional</h2>
+<p>La informació es pot tractar en països diferents del país on vius, segons la infraestructura i els proveïdors de serveis utilitzats per Winpost.</p>
+
+<h2>11. Contingut extern de sortejos</h2>
+<p>Winpost és un servei de descoberta i organització d'oportunitats promocionals operades per tercers independents. Winpost no accepta participacions ni selecciona guanyadors dels sortejos de tercers esmentats a l'app. La participació es fa a través del servei extern de l'organitzador i es regeix per les seves bases i pràctiques de privacitat.</p>
+
+<h2>12. Canvis en aquesta política</h2>
+<p>Podem actualitzar aquesta Política de privacitat a mesura que Winpost canviï. La data situada a la part superior d'aquesta pàgina indica quan es va actualitzar per darrera vegada.</p>
+
+<h2>13. Contacte</h2>
+<p>Les preguntes sobre privacitat es poden enviar a <a class="text-link" href="mailto:winpostapp@gmail.com">winpostapp@gmail.com</a>.</p>
+
+<div class="links">
+<a class="button" href="terms.html">Condicions d'ús</a>
+<a class="button" href="support.html">Suport</a>
+<a class="button" href="mailto:winpostapp@gmail.com">Contacte</a>
+</div>
+</section>
+</main>
+<footer>
+<span data-language-label="en">© 2026 Winpost. All rights reserved.</span>
+<span data-language-label="es" hidden>© 2026 Winpost. Todos los derechos reservados.</span>
+<span data-language-label="ca" hidden>© 2026 Winpost. Tots els drets reservats.</span>
+</footer>
+</div>
+<script>
+(() => {
+  const STORAGE_KEY = 'winpostWebsiteLanguage';
+  const supported = ['en', 'es', 'ca'];
+  const pageMeta = {"en": {"title": "Privacy Policy — Winpost", "description": "Winpost Privacy Policy."}, "es": {"title": "Política de privacidad — Winpost", "description": "Política de privacidad de Winpost."}, "ca": {"title": "Política de privacitat — Winpost", "description": "Política de privacitat de Winpost."}};
+
+  const detectLanguage = () => {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (supported.includes(saved)) return saved;
+    } catch (_) {}
+
+    const languages = Array.isArray(navigator.languages) && navigator.languages.length
+      ? navigator.languages
+      : [navigator.language || 'en'];
+
+    for (const language of languages) {
+      const code = String(language).toLowerCase().split('-')[0];
+      if (supported.includes(code)) return code;
+    }
+    return 'en';
+  };
+
+  const setLanguage = (language) => {
+    const lang = supported.includes(language) ? language : 'en';
+    document.documentElement.lang = lang;
+
+    document.querySelectorAll('[data-language-content]').forEach((element) => {
+      element.hidden = element.dataset.languageContent !== lang;
+    });
+
+    document.querySelectorAll('[data-language-label]').forEach((element) => {
+      element.hidden = element.dataset.languageLabel !== lang;
+    });
+
+    document.querySelectorAll('[data-language-option]').forEach((button) => {
+      button.setAttribute('aria-pressed', button.dataset.languageOption === lang ? 'true' : 'false');
+    });
+
+    if (pageMeta[lang]) {
+      document.title = pageMeta[lang].title;
+      const description = document.querySelector('meta[name="description"]');
+      if (description) description.setAttribute('content', pageMeta[lang].description);
+    }
+
+    try { localStorage.setItem(STORAGE_KEY, lang); } catch (_) {}
+  };
+
+  document.querySelectorAll('[data-language-option]').forEach((button) => {
+    button.addEventListener('click', () => setLanguage(button.dataset.languageOption));
+  });
+
+  setLanguage(detectLanguage());
+})();
+</script>
 </body>
 </html>
