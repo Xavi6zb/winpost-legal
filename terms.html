@@ -11,23 +11,39 @@
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",sans-serif;line-height:1.6}
 .wrap{width:min(860px,calc(100% - 32px));margin:auto;padding:42px 0 64px}header{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:28px}
 .brand{display:flex;align-items:center;gap:12px;font-weight:800;font-size:22px;letter-spacing:-.02em;color:var(--text);text-decoration:none}.logo{width:38px;height:38px;border-radius:11px;background:var(--accent);display:grid;place-items:center;color:#111;font-weight:900}
-nav{display:flex;gap:14px;flex-wrap:wrap}nav a,.text-link{color:var(--text);text-decoration:none;font-weight:650}nav a:hover,.text-link:hover{text-decoration:underline}
+.header-actions{display:flex;align-items:center;gap:16px;flex-wrap:wrap}nav{display:flex;gap:14px;flex-wrap:wrap}nav a,.text-link{color:var(--text);text-decoration:none;font-weight:650}nav a:hover,.text-link:hover{text-decoration:underline}
+.language-switcher{display:inline-flex;align-items:center;gap:2px;padding:3px;border:1px solid var(--line);border-radius:999px;background:var(--card);box-shadow:0 3px 12px rgba(0,0,0,.04)}
+.language-switcher button{appearance:none;border:0;background:transparent;color:var(--muted);font:inherit;font-size:12px;font-weight:800;letter-spacing:.03em;line-height:1;min-width:36px;padding:9px 10px;border-radius:999px;cursor:pointer;transition:background .15s ease,color .15s ease,transform .15s ease}
+.language-switcher button:hover{color:var(--text)}.language-switcher button:active{transform:scale(.96)}.language-switcher button[aria-pressed="true"]{background:var(--accent);color:#111}
 .card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:28px;box-shadow:0 8px 28px rgba(0,0,0,.04)}
 h1{margin:0 0 8px;font-size:clamp(32px,6vw,52px);line-height:1.05;letter-spacing:-.04em}h2{margin-top:34px;margin-bottom:8px;font-size:22px}h3{margin-top:24px;margin-bottom:6px;font-size:17px}
 .muted{color:var(--muted)}.eyebrow{color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:12px;margin-bottom:12px}
+.notice{margin:18px 0;padding:16px;border:1px solid var(--line);border-radius:14px;background:var(--card)}
 .links{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:26px}.button{display:block;padding:16px;border:1px solid var(--line);border-radius:15px;color:var(--text);text-decoration:none;font-weight:750;background:var(--card)}
 .button:hover{border-color:var(--accent)}ul{padding-left:22px}footer{margin-top:28px;color:var(--muted);font-size:14px;text-align:center}
-@media(max-width:640px){header{align-items:flex-start;flex-direction:column}.links{grid-template-columns:1fr}.card{padding:22px;border-radius:18px}}
+[hidden]{display:none!important}
+@media(max-width:640px){header{align-items:flex-start;flex-direction:column}.header-actions{width:100%;justify-content:space-between;gap:12px}.links{grid-template-columns:1fr}.card{padding:22px;border-radius:18px}}
 </style>
 </head>
 <body>
 <div class="wrap">
 <header>
 <a class="brand" href="index.html"><span class="logo">W</span>Winpost</a>
-<nav><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="support.html">Support</a></nav>
+<div class="header-actions">
+<nav>
+<a href="privacy.html"><span data-language-label="en">Privacy</span><span data-language-label="es" hidden>Privacidad</span><span data-language-label="ca" hidden>Privacitat</span></a>
+<a href="terms.html"><span data-language-label="en">Terms</span><span data-language-label="es" hidden>Términos</span><span data-language-label="ca" hidden>Condicions</span></a>
+<a href="support.html"><span data-language-label="en">Support</span><span data-language-label="es" hidden>Soporte</span><span data-language-label="ca" hidden>Suport</span></a>
+</nav>
+<div class="language-switcher" role="group" aria-label="Language selector">
+<button type="button" data-language-option="en" aria-pressed="true" title="English">EN</button>
+<button type="button" data-language-option="es" aria-pressed="false" title="Español">ES</button>
+<button type="button" data-language-option="ca" aria-pressed="false" title="Català">CA</button>
+</div>
+</div>
 </header>
-
 <main class="card">
+<section data-language-content="en">
 <div class="eyebrow">Last updated: September 5, 2026</div>
 <h1>Terms of Use</h1>
 <p>These Terms of Use ("Terms") govern your use of the Winpost mobile application and related services. By using Winpost, you agree to these Terms.</p>
@@ -90,9 +106,198 @@ h1{margin:0 0 8px;font-size:clamp(32px,6vw,52px);line-height:1.05;letter-spacing
 
 <h2>15. Contact</h2>
 <p>Questions about these Terms can be sent to <a class="text-link" href="mailto:winpostapp@gmail.com">winpostapp@gmail.com</a>.</p>
-</main>
+</section>
 
-<footer>© 2026 Winpost. All rights reserved.</footer>
+<section data-language-content="es" hidden>
+<div class="eyebrow">Última actualización: 5 de septiembre de 2026</div>
+<h1>Términos de uso</h1>
+<p>Estos Términos de uso ("Términos") regulan el uso de la aplicación móvil Winpost y de los servicios relacionados. Al utilizar Winpost, aceptas estos Términos.</p>
+
+<h2>1. Qué es Winpost</h2>
+<p>Winpost es un servicio de descubrimiento y organización de sorteos, promociones y oportunidades similares de terceros publicadas en plataformas externas compatibles.</p>
+<p>Salvo que un sorteo indique expresamente lo contrario, Winpost no patrocina, administra ni opera el sorteo, no selecciona a sus ganadores y no acepta participaciones en nombre del organizador externo.</p>
+
+<h2>2. Sorteos de terceros</h2>
+<p>Cada sorteo se rige por las reglas oficiales, los requisitos de elegibilidad, los plazos y las decisiones de su organizador. Si la información mostrada en Winpost entra en conflicto con las reglas oficiales del organizador, prevalecen dichas reglas oficiales.</p>
+<p>Antes de participar, eres responsable de confirmar la elegibilidad, los plazos, los requisitos de participación, las restricciones geográficas, los requisitos de edad y cualquier otra condición aplicable.</p>
+
+<h2>3. Apple no es patrocinador</h2>
+<p>Apple Inc. no es patrocinador, administrador ni operador de los sorteos de terceros mostrados en Winpost y no es responsable de dichos sorteos.</p>
+
+<h2>4. Plataformas y enlaces externos</h2>
+<p>Winpost puede enlazar o abrir contenido de servicios de terceros como Instagram, TikTok y YouTube. Estos servicios son independientes de Winpost y se rigen por sus propios términos y políticas de privacidad.</p>
+
+<h2>5. Verificación y exactitud</h2>
+<p>Winpost puede revisar o etiquetar determinado contenido como verificado en función de la información disponible y de nuestro proceso de moderación. La verificación no garantiza que un organizador externo actúe según lo esperado, que se entregue un premio ni que la información permanezca siempre sin cambios.</p>
+<p>Los organizadores pueden modificar, cancelar, ampliar, restringir o retirar sorteos sin previo aviso a Winpost.</p>
+
+<h2>6. Envíos y reportes de usuarios</h2>
+<p>Si envías contenido a Winpost, solo debes enviar información que estés autorizado a compartir. Te comprometes a no enviar contenido fraudulento, engañoso, ilícito, abusivo o malicioso.</p>
+<p>Podemos revisar, editar, rechazar o eliminar envíos y reportes para mantener la calidad y la seguridad de Winpost.</p>
+
+<h2>7. Suscripciones a Winpost Plus</h2>
+<p>Winpost puede ofrecer suscripciones autorrenovables, como Winpost Plus Mensual y Winpost Plus Anual. Los precios, periodos de facturación y funciones disponibles se muestran en la app antes de la compra.</p>
+<p>El pago se carga en tu cuenta de Apple ID a través del App Store. Las suscripciones se renuevan automáticamente salvo que se cancelen de acuerdo con los ajustes y políticas de suscripción de Apple. Puedes gestionar o cancelar suscripciones desde los ajustes de tu cuenta de Apple.</p>
+<p>Winpost Plus proporciona funciones dentro de la app y no compra participaciones en sorteos, no mejora tus probabilidades de ganar y no garantiza ningún premio.</p>
+
+<h2>8. Uso aceptable</h2>
+<ul>
+<li>No utilices Winpost para actividades ilícitas o fraudulentas.</li>
+<li>No interfieras con la seguridad ni con el funcionamiento del servicio.</li>
+<li>No te hagas pasar por un organizador de sorteos ni por un representante de Winpost.</li>
+<li>No envíes deliberadamente información falsa sobre sorteos.</li>
+<li>No abuses de los sistemas de reporte, moderación o notificaciones.</li>
+<li>No intentes acceder sin autorización a funciones protegidas para moderadores.</li>
+</ul>
+
+<h2>9. Disponibilidad y cambios</h2>
+<p>Podemos modificar, suspender, eliminar o añadir funciones en cualquier momento. No garantizamos que Winpost o una publicación concreta de un sorteo permanezcan siempre disponibles.</p>
+
+<h2>10. Exención de garantías</h2>
+<p>En la máxima medida permitida por la ley, Winpost se proporciona "tal cual" y "según disponibilidad". No garantizamos la disponibilidad, legalidad, autenticidad, resultado ni ejecución de ningún sorteo de terceros.</p>
+
+<h2>11. Limitación de responsabilidad</h2>
+<p>En la máxima medida permitida por la legislación aplicable, Winpost no será responsable de pérdidas derivadas de un sorteo de terceros, una plataforma externa, la conducta de un organizador, cambios en las reglas de un sorteo, plazos incumplidos, premios no disponibles o la confianza depositada en información de terceros.</p>
+
+<h2>12. Privacidad</h2>
+<p>El uso de Winpost también está sujeto a nuestra <a class="text-link" href="privacy.html">Política de privacidad</a>.</p>
+
+<h2>13. EULA estándar de Apple</h2>
+<p>Cuando corresponda, tu licencia para utilizar la aplicación de iOS también está sujeta al Contrato de licencia de usuario final estándar de Apple para aplicaciones con licencia.</p>
+<p><a class="text-link" href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" target="_blank" rel="noopener noreferrer">EULA estándar de Apple</a></p>
+
+<h2>14. Cambios en estos Términos</h2>
+<p>Podemos actualizar estos Términos a medida que Winpost evolucione. La fecha indicada en la parte superior corresponde a la última revisión.</p>
+
+<h2>15. Contacto</h2>
+<p>Las preguntas sobre estos Términos pueden enviarse a <a class="text-link" href="mailto:winpostapp@gmail.com">winpostapp@gmail.com</a>.</p>
+</section>
+
+<section data-language-content="ca" hidden>
+<div class="eyebrow">Darrera actualització: 5 de setembre de 2026</div>
+<h1>Condicions d'ús</h1>
+<p>Aquestes Condicions d'ús ("Condicions") regulen l'ús de l'aplicació mòbil Winpost i dels serveis relacionats. En utilitzar Winpost, acceptes aquestes Condicions.</p>
+
+<h2>1. Què és Winpost</h2>
+<p>Winpost és un servei de descoberta i organització de sortejos, promocions i oportunitats similars de tercers publicades en plataformes externes compatibles.</p>
+<p>Llevat que un sorteig indiqui expressament el contrari, Winpost no patrocina, administra ni opera el sorteig, no selecciona els guanyadors i no accepta participacions en nom de l'organitzador extern.</p>
+
+<h2>2. Sortejos de tercers</h2>
+<p>Cada sorteig es regeix per les bases oficials, els requisits d'elegibilitat, els terminis i les decisions del seu organitzador. Si la informació mostrada a Winpost entra en conflicte amb les bases oficials de l'organitzador, prevalen aquestes bases oficials.</p>
+<p>Abans de participar, ets responsable de confirmar l'elegibilitat, els terminis, els requisits de participació, les restriccions geogràfiques, els requisits d'edat i qualsevol altra condició aplicable.</p>
+
+<h2>3. Apple no és patrocinador</h2>
+<p>Apple Inc. no és patrocinador, administrador ni operador dels sortejos de tercers mostrats a Winpost i no és responsable d'aquests sortejos.</p>
+
+<h2>4. Plataformes i enllaços externs</h2>
+<p>Winpost pot enllaçar o obrir contingut de serveis de tercers com Instagram, TikTok i YouTube. Aquests serveis són independents de Winpost i es regeixen pels seus propis termes i polítiques de privacitat.</p>
+
+<h2>5. Verificació i exactitud</h2>
+<p>Winpost pot revisar o etiquetar determinat contingut com a verificat en funció de la informació disponible i del nostre procés de moderació. La verificació no garanteix que un organitzador extern actuï segons el que s'espera, que s'atorgui un premi ni que la informació no canviï mai.</p>
+<p>Els organitzadors poden modificar, cancel·lar, ampliar, restringir o retirar sortejos sense avís previ a Winpost.</p>
+
+<h2>6. Enviaments i denúncies dels usuaris</h2>
+<p>Si envies contingut a Winpost, només has d'enviar informació que tinguis permís per compartir. Acceptes no enviar contingut fraudulent, enganyós, il·lícit, abusiu o maliciós.</p>
+<p>Podem revisar, editar, rebutjar o eliminar enviaments i denúncies per mantenir la qualitat i la seguretat de Winpost.</p>
+
+<h2>7. Subscripcions a Winpost Plus</h2>
+<p>Winpost pot oferir subscripcions amb renovació automàtica, com Winpost Plus Mensual i Winpost Plus Anual. Els preus, períodes de facturació i funcions disponibles es mostren a l'app abans de la compra.</p>
+<p>El pagament es carrega al teu compte d'Apple ID a través de l'App Store. Les subscripcions es renoven automàticament tret que es cancel·lin d'acord amb els ajustos i les polítiques de subscripció d'Apple. Pots gestionar o cancel·lar les subscripcions des dels ajustos del teu compte d'Apple.</p>
+<p>Winpost Plus proporciona funcions dins de l'app i no compra participacions en sortejos, no millora les teves probabilitats de guanyar i no garanteix cap premi.</p>
+
+<h2>8. Ús acceptable</h2>
+<ul>
+<li>No utilitzis Winpost per a activitats il·lícites o fraudulentes.</li>
+<li>No interfereixis amb la seguretat ni amb el funcionament del servei.</li>
+<li>No et facis passar per un organitzador de sortejos ni per un representant de Winpost.</li>
+<li>No enviïs deliberadament informació falsa sobre sortejos.</li>
+<li>No abusis dels sistemes de denúncia, moderació o notificacions.</li>
+<li>No intentis accedir sense autorització a funcions protegides per a moderadors.</li>
+</ul>
+
+<h2>9. Disponibilitat i canvis</h2>
+<p>Podem modificar, suspendre, eliminar o afegir funcions en qualsevol moment. No garantim que Winpost o una publicació concreta d'un sorteig estiguin sempre disponibles.</p>
+
+<h2>10. Exempció de garanties</h2>
+<p>En la màxima mesura permesa per la llei, Winpost es proporciona "tal com és" i "segons disponibilitat". No garantim la disponibilitat, legalitat, autenticitat, resultat ni execució de cap sorteig de tercers.</p>
+
+<h2>11. Limitació de responsabilitat</h2>
+<p>En la màxima mesura permesa per la legislació aplicable, Winpost no serà responsable de pèrdues derivades d'un sorteig de tercers, una plataforma externa, la conducta d'un organitzador, canvis en les bases d'un sorteig, terminis incomplerts, premis no disponibles o la confiança dipositada en informació de tercers.</p>
+
+<h2>12. Privacitat</h2>
+<p>L'ús de Winpost també està subjecte a la nostra <a class="text-link" href="privacy.html">Política de privacitat</a>.</p>
+
+<h2>13. EULA estàndard d'Apple</h2>
+<p>Quan correspongui, la teva llicència per utilitzar l'aplicació d'iOS també està subjecta al Contracte de llicència d'usuari final estàndard d'Apple per a aplicacions amb llicència.</p>
+<p><a class="text-link" href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" target="_blank" rel="noopener noreferrer">EULA estàndard d'Apple</a></p>
+
+<h2>14. Canvis en aquestes Condicions</h2>
+<p>Podem actualitzar aquestes Condicions a mesura que Winpost evolucioni. La data indicada a la part superior correspon a la darrera revisió.</p>
+
+<h2>15. Contacte</h2>
+<p>Les preguntes sobre aquestes Condicions es poden enviar a <a class="text-link" href="mailto:winpostapp@gmail.com">winpostapp@gmail.com</a>.</p>
+</section>
+</main>
+<footer>
+<span data-language-label="en">© 2026 Winpost. All rights reserved.</span>
+<span data-language-label="es" hidden>© 2026 Winpost. Todos los derechos reservados.</span>
+<span data-language-label="ca" hidden>© 2026 Winpost. Tots els drets reservats.</span>
+</footer>
 </div>
+<script>
+(() => {
+  const STORAGE_KEY = 'winpostWebsiteLanguage';
+  const supported = ['en', 'es', 'ca'];
+  const pageMeta = {"en": {"title": "Terms of Use — Winpost", "description": "Winpost Terms of Use."}, "es": {"title": "Términos de uso — Winpost", "description": "Términos de uso de Winpost."}, "ca": {"title": "Condicions d’ús — Winpost", "description": "Condicions d’ús de Winpost."}};
+
+  const detectLanguage = () => {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (supported.includes(saved)) return saved;
+    } catch (_) {}
+
+    const languages = Array.isArray(navigator.languages) && navigator.languages.length
+      ? navigator.languages
+      : [navigator.language || 'en'];
+
+    for (const language of languages) {
+      const code = String(language).toLowerCase().split('-')[0];
+      if (supported.includes(code)) return code;
+    }
+    return 'en';
+  };
+
+  const setLanguage = (language) => {
+    const lang = supported.includes(language) ? language : 'en';
+    document.documentElement.lang = lang;
+
+    document.querySelectorAll('[data-language-content]').forEach((element) => {
+      element.hidden = element.dataset.languageContent !== lang;
+    });
+
+    document.querySelectorAll('[data-language-label]').forEach((element) => {
+      element.hidden = element.dataset.languageLabel !== lang;
+    });
+
+    document.querySelectorAll('[data-language-option]').forEach((button) => {
+      button.setAttribute('aria-pressed', button.dataset.languageOption === lang ? 'true' : 'false');
+    });
+
+    if (pageMeta[lang]) {
+      document.title = pageMeta[lang].title;
+      const description = document.querySelector('meta[name="description"]');
+      if (description) description.setAttribute('content', pageMeta[lang].description);
+    }
+
+    try { localStorage.setItem(STORAGE_KEY, lang); } catch (_) {}
+  };
+
+  document.querySelectorAll('[data-language-option]').forEach((button) => {
+    button.addEventListener('click', () => setLanguage(button.dataset.languageOption));
+  });
+
+  setLanguage(detectLanguage());
+})();
+</script>
 </body>
 </html>
