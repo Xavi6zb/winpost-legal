@@ -24,6 +24,10 @@
     .gate h2{margin:0 0 8px;font-size:22px}
     .gate p{margin:0 0 18px;color:var(--muted);line-height:1.45}
     .code-input{width:100%;border:1px solid var(--line);background:var(--card2);color:var(--text);border-radius:12px;padding:13px;outline:none;text-transform:uppercase;letter-spacing:.12em;text-align:center;font-weight:800}
+    .code-row{display:flex;gap:8px;align-items:stretch}
+    .code-row .code-input{flex:1;min-width:0}
+    .paste-btn{border:1px solid var(--line);background:var(--card2);color:var(--text);border-radius:12px;padding:0 14px;font-weight:750;cursor:pointer;white-space:nowrap}
+    .paste-btn.ok{background:var(--green-bg);border-color:#2f8f61;color:var(--green)}
     .primary{width:100%;margin-top:10px;border:0;background:#f4f4f5;color:#0a0a0b;border-radius:12px;padding:12px 14px;font-weight:800;cursor:pointer}
     .status{margin-top:12px;color:var(--muted);font-size:13px;min-height:18px}
     .error{color:#ff9a9a}
@@ -64,7 +68,10 @@
     <section id="codeView" class="gate card hidden">
       <h2>Enter access code</h2>
       <p>Use the code ChatGPT gave you with this ScanBoard link.</p>
-      <input id="codeInput" class="code-input" inputmode="text" autocomplete="one-time-code" placeholder="XXXX-XXXX" maxlength="16">
+      <div class="code-row">
+        <input id="codeInput" class="code-input" inputmode="text" autocomplete="one-time-code" placeholder="XXXX-XXXX" maxlength="16">
+        <button id="pasteBtn" class="paste-btn" type="button">Paste</button>
+      </div>
       <button id="unlockBtn" class="primary">Open ScanBoard</button>
       <div id="codeStatus" class="status"></div>
     </section>
@@ -106,6 +113,7 @@
       boardView: document.getElementById('boardView'),
       emptyView: document.getElementById('emptyView'),
       codeInput: document.getElementById('codeInput'),
+      pasteBtn: document.getElementById('pasteBtn'),
       unlockBtn: document.getElementById('unlockBtn'),
       codeStatus: document.getElementById('codeStatus'),
       subtitle: document.getElementById('subtitle'),
@@ -405,6 +413,45 @@
       setOnly(els.boardView);
     }
 
+    async function pasteAccessCode() {
+      els.codeStatus.classList.remove('error');
+
+      try {
+        if (!navigator.clipboard || !navigator.clipboard.readText) {
+          throw new Error('Clipboard API unavailable');
+        }
+
+        const clipboardText = await navigator.clipboard.readText();
+        const cleaned = clipboardText
+          .toUpperCase()
+          .replace(/[^A-Z0-9]/g, '')
+          .slice(0, 8);
+
+        if (!cleaned) {
+          els.codeStatus.textContent = 'Clipboard does not contain a valid code.';
+          els.codeStatus.classList.add('error');
+          return;
+        }
+
+        const formatted = cleaned.length > 4
+          ? cleaned.slice(0, 4) + '-' + cleaned.slice(4)
+          : cleaned;
+
+        els.codeInput.value = formatted;
+        els.pasteBtn.textContent = 'Pasted ✓';
+        els.pasteBtn.classList.add('ok');
+        els.codeStatus.textContent = '';
+
+        setTimeout(() => {
+          els.pasteBtn.textContent = 'Paste';
+          els.pasteBtn.classList.remove('ok');
+        }, 1000);
+      } catch (e) {
+        els.codeInput.focus();
+        els.codeStatus.textContent = 'Clipboard access is blocked here. Hold the field and tap Paste.';
+      }
+    }
+
     async function unlockSeed() {
       const code = els.codeInput.value.trim();
       if (!code) {
@@ -486,6 +533,7 @@
       }
     }
 
+    els.pasteBtn.addEventListener('click', pasteAccessCode);
     els.unlockBtn.addEventListener('click', unlockSeed);
     els.codeInput.addEventListener('keydown', e => {
       if (e.key === 'Enter') unlockSeed();
