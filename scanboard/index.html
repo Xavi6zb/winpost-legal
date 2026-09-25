@@ -7,134 +7,49 @@
   <title>Winpost ScanBoard</title>
   <style>
     :root {
-      --bg:#09090b;
-      --card:#141416;
-      --card2:#0f0f11;
-      --line:#2a2a2f;
-      --text:#f5f5f6;
-      --muted:#96969f;
-      --green:#8de0b5;
-      --green-bg:#163528;
-      --danger:#ff8e8e;
-      --danger-bg:#3b1818;
+      --bg:#09090b; --card:#141416; --card2:#0f0f11; --line:#2a2a2f;
+      --text:#f5f5f6; --muted:#96969f; --green:#8de0b5; --green-bg:#163528;
+      --danger:#ff8e8e; --danger-bg:#3b1818;
     }
-    * { box-sizing:border-box; }
-    html,body {
-      margin:0; min-height:100%; background:var(--bg); color:var(--text);
-      font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",sans-serif;
-    }
-    button,input,textarea { font:inherit; }
-    button { -webkit-tap-highlight-color:transparent; }
-    .shell { max-width:980px; margin:0 auto; padding:18px; }
-    .topbar {
-      display:flex; justify-content:space-between; align-items:center; gap:14px;
-      margin-bottom:18px;
-    }
-    .brand h1 { margin:0; font-size:26px; letter-spacing:-.02em; }
-    .brand p { margin:5px 0 0; color:var(--muted); font-size:13px; }
-    .ghost {
-      border:1px solid var(--line); background:var(--card); color:var(--text);
-      border-radius:11px; padding:9px 12px; cursor:pointer;
-    }
-    .card {
-      background:var(--card); border:1px solid var(--line); border-radius:18px; padding:18px;
-    }
-    .auth-wrap { max-width:520px; margin:64px auto 0; }
-    .auth-wrap h2 { margin:0 0 8px; font-size:22px; }
-    .auth-wrap p { margin:0 0 18px; color:var(--muted); line-height:1.45; }
-    .input {
-      width:100%; border:1px solid var(--line); background:var(--card2); color:var(--text);
-      border-radius:12px; padding:12px 13px; outline:none;
-    }
-    .primary {
-      width:100%; margin-top:10px; border:0; background:#f4f4f5; color:#0a0a0b;
-      border-radius:12px; padding:12px 14px; font-weight:750; cursor:pointer;
-    }
-    .status { margin-top:12px; color:var(--muted); font-size:13px; min-height:18px; }
-    .hidden { display:none !important; }
-
-    .tabs {
-      display:flex; gap:8px; overflow-x:auto; padding:2px 0 14px;
-      -webkit-overflow-scrolling:touch;
-    }
-    .tab-btn {
-      border:1px solid var(--line); background:var(--card); color:var(--muted);
-      border-radius:11px; padding:10px 13px; font-weight:700; white-space:nowrap; cursor:pointer;
-    }
-    .tab-btn.active { background:#f4f4f5; color:#0a0a0b; border-color:#f4f4f5; }
-    .giveaway { display:none; }
-    .giveaway.active { display:block; }
-
-    .hero {
-      display:flex; align-items:flex-start; justify-content:space-between; gap:14px;
-      background:var(--card); border:1px solid var(--line); border-radius:18px;
-      padding:17px; margin-bottom:10px;
-    }
-    .hero h2 { margin:8px 0 0; font-size:21px; line-height:1.2; }
-    .badge {
-      display:inline-block; padding:5px 8px; border-radius:999px;
-      background:var(--green-bg); color:var(--green); font-size:11px; font-weight:800;
-      letter-spacing:.06em;
-    }
-    .copy-all {
-      border:1px solid var(--line); background:var(--card2); color:var(--text);
-      border-radius:10px; padding:9px 11px; font-size:12px; font-weight:750; cursor:pointer;
-      white-space:nowrap;
-    }
-    .field {
-      background:var(--card); border:1px solid var(--line); border-radius:14px;
-      padding:13px; margin:9px 0;
-    }
-    .field-head {
-      display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:8px;
-    }
-    .label {
-      color:var(--muted); font-size:11px; font-weight:800; text-transform:uppercase;
-      letter-spacing:.05em;
-    }
-    .copy-btn {
-      border:1px solid var(--line); background:var(--card2); color:var(--text);
-      border-radius:9px; padding:6px 9px; font-size:12px; font-weight:750; cursor:pointer;
-    }
-    .copy-btn.ok,.copy-all.ok {
-      background:var(--green-bg); border-color:#2f8f61; color:var(--green);
-    }
-    .value {
-      width:100%; background:var(--card2); color:var(--text); border:1px solid #242428;
-      border-radius:10px; padding:10px 11px; line-height:1.45; resize:none;
-      overflow:hidden;
-    }
-    .plain { white-space:pre-wrap; line-height:1.45; }
-    .actions {
-      display:flex; gap:10px; justify-content:space-between; align-items:center;
-      margin-top:18px; padding-top:16px; border-top:1px solid var(--line);
-    }
-    .danger {
-      border:1px solid #673030; background:var(--danger-bg); color:var(--danger);
-      border-radius:11px; padding:10px 12px; font-weight:750; cursor:pointer;
-    }
-    .muted { color:var(--muted); font-size:12px; }
-    .empty {
-      text-align:center; padding:60px 20px; color:var(--muted);
-      border:1px dashed var(--line); border-radius:18px;
-    }
-    .toast {
-      position:fixed; left:50%; bottom:max(24px,env(safe-area-inset-bottom));
-      transform:translate(-50%,14px); opacity:0; pointer-events:none;
-      background:var(--green-bg); border:1px solid #2f8f61; color:var(--green);
-      padding:9px 13px; border-radius:999px; font-size:13px; font-weight:800;
-      transition:.18s ease; z-index:100;
-    }
-    .toast.show { opacity:1; transform:translate(-50%,0); }
-    .error { color:#ff9a9a; }
-    @media(max-width:640px) {
-      .shell { padding:14px; }
-      .brand h1 { font-size:23px; }
-      .hero { padding:14px; }
-      .hero h2 { font-size:19px; }
-      .actions { align-items:stretch; flex-direction:column; }
-      .danger { width:100%; }
-    }
+    *{box-sizing:border-box}
+    html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",sans-serif}
+    button,input,textarea{font:inherit}
+    button{-webkit-tap-highlight-color:transparent}
+    .shell{max-width:980px;margin:0 auto;padding:18px}
+    .topbar{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:18px}
+    .brand h1{margin:0;font-size:26px;letter-spacing:-.02em}
+    .brand p{margin:5px 0 0;color:var(--muted);font-size:13px}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px}
+    .gate{max-width:520px;margin:64px auto 0}
+    .gate h2{margin:0 0 8px;font-size:22px}
+    .gate p{margin:0 0 18px;color:var(--muted);line-height:1.45}
+    .code-input{width:100%;border:1px solid var(--line);background:var(--card2);color:var(--text);border-radius:12px;padding:13px;outline:none;text-transform:uppercase;letter-spacing:.12em;text-align:center;font-weight:800}
+    .primary{width:100%;margin-top:10px;border:0;background:#f4f4f5;color:#0a0a0b;border-radius:12px;padding:12px 14px;font-weight:800;cursor:pointer}
+    .status{margin-top:12px;color:var(--muted);font-size:13px;min-height:18px}
+    .error{color:#ff9a9a}
+    .hidden{display:none!important}
+    .tabs{display:flex;gap:8px;overflow-x:auto;padding:2px 0 14px;-webkit-overflow-scrolling:touch}
+    .tab-btn{border:1px solid var(--line);background:var(--card);color:var(--muted);border-radius:11px;padding:10px 13px;font-weight:700;white-space:nowrap;cursor:pointer}
+    .tab-btn.active{background:#f4f4f5;color:#0a0a0b;border-color:#f4f4f5}
+    .giveaway{display:none}
+    .giveaway.active{display:block}
+    .hero{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:17px;margin-bottom:10px}
+    .hero h2{margin:8px 0 0;font-size:21px;line-height:1.2}
+    .badge{display:inline-block;padding:5px 8px;border-radius:999px;background:var(--green-bg);color:var(--green);font-size:11px;font-weight:800;letter-spacing:.06em}
+    .copy-all,.copy-btn{border:1px solid var(--line);background:var(--card2);color:var(--text);border-radius:10px;padding:9px 11px;font-size:12px;font-weight:750;cursor:pointer;white-space:nowrap}
+    .field{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px;margin:9px 0}
+    .field-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
+    .label{color:var(--muted);font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.05em}
+    .value{width:100%;background:var(--card2);color:var(--text);border:1px solid #242428;border-radius:10px;padding:10px 11px;line-height:1.45;resize:none;overflow:hidden}
+    .plain{white-space:pre-wrap;line-height:1.45}
+    .copy-btn.ok,.copy-all.ok{background:var(--green-bg);border-color:#2f8f61;color:var(--green)}
+    .actions{display:flex;gap:10px;justify-content:space-between;align-items:center;margin-top:18px;padding-top:16px;border-top:1px solid var(--line)}
+    .danger{border:1px solid #673030;background:var(--danger-bg);color:var(--danger);border-radius:11px;padding:10px 12px;font-weight:750;cursor:pointer}
+    .muted{color:var(--muted);font-size:12px}
+    .empty{text-align:center;padding:60px 20px;color:var(--muted);border:1px dashed var(--line);border-radius:18px}
+    .toast{position:fixed;left:50%;bottom:max(24px,env(safe-area-inset-bottom));transform:translate(-50%,14px);opacity:0;pointer-events:none;background:var(--green-bg);border:1px solid #2f8f61;color:var(--green);padding:9px 13px;border-radius:999px;font-size:13px;font-weight:800;transition:.18s ease;z-index:100}
+    .toast.show{opacity:1;transform:translate(-50%,0)}
+    @media(max-width:640px){.shell{padding:14px}.brand h1{font-size:23px}.hero{padding:14px}.hero h2{font-size:19px}.actions{align-items:stretch;flex-direction:column}.danger{width:100%}}
   </style>
 </head>
 <body>
@@ -144,33 +59,28 @@
         <h1>Winpost ScanBoard</h1>
         <p id="subtitle">Private giveaway workspace</p>
       </div>
-      <button id="signOutBtn" class="ghost hidden">Sign out</button>
     </div>
 
-    <section id="authView" class="auth-wrap card hidden">
-      <h2>Private access</h2>
-      <p>Enter your email. Supabase will send you a magic sign-in link.</p>
-      <input id="emailInput" class="input" type="email" autocomplete="email" placeholder="you@example.com">
-      <button id="loginBtn" class="primary">Send sign-in link</button>
-      <div id="authStatus" class="status"></div>
+    <section id="codeView" class="gate card hidden">
+      <h2>Enter access code</h2>
+      <p>Use the code ChatGPT gave you with this ScanBoard link.</p>
+      <input id="codeInput" class="code-input" inputmode="text" autocomplete="one-time-code" placeholder="XXXX-XXXX" maxlength="16">
+      <button id="unlockBtn" class="primary">Open ScanBoard</button>
+      <div id="codeStatus" class="status"></div>
     </section>
 
-    <section id="loadingView" class="card">
-      Loading…
-    </section>
+    <section id="loadingView" class="card">Loading…</section>
 
     <section id="boardView" class="hidden">
       <div id="tabs" class="tabs"></div>
       <div id="panels"></div>
       <div class="actions">
-        <div class="muted">This ScanBoard is private to your authenticated Supabase account.</div>
+        <div class="muted">Private to this browser session and protected by Supabase RLS.</div>
         <button id="deleteBtn" class="danger">Clear & delete ScanBoard</button>
       </div>
     </section>
 
-    <section id="emptyView" class="empty hidden">
-      No ScanBoard loaded.
-    </section>
+    <section id="emptyView" class="empty hidden">No ScanBoard loaded.</section>
   </div>
 
   <div id="toast" class="toast">Copied ✓</div>
@@ -179,35 +89,37 @@
   <script>
     const SUPABASE_URL = 'https://bibeipatouqketdwicad.supabase.co';
     const SUPABASE_KEY = 'sb_publishable_CV9hOkHGePlDt9tcNTRZaA_tphrHDJQ';
+
     const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
       auth: {
         persistSession: true,
         autoRefreshToken: true,
-        detectSessionInUrl: true
+        detectSessionInUrl: false
       }
     });
 
+    const PBKDF2_ITERATIONS = 250000;
+
     const els = {
-      authView: document.getElementById('authView'),
+      codeView: document.getElementById('codeView'),
       loadingView: document.getElementById('loadingView'),
       boardView: document.getElementById('boardView'),
       emptyView: document.getElementById('emptyView'),
-      emailInput: document.getElementById('emailInput'),
-      loginBtn: document.getElementById('loginBtn'),
-      authStatus: document.getElementById('authStatus'),
-      signOutBtn: document.getElementById('signOutBtn'),
+      codeInput: document.getElementById('codeInput'),
+      unlockBtn: document.getElementById('unlockBtn'),
+      codeStatus: document.getElementById('codeStatus'),
       subtitle: document.getElementById('subtitle'),
       tabs: document.getElementById('tabs'),
       panels: document.getElementById('panels'),
       deleteBtn: document.getElementById('deleteBtn'),
-      toast: document.getElementById('toast'),
+      toast: document.getElementById('toast')
     };
 
     let currentBoard = null;
-    let pendingPayload = null;
+    let encryptedSeed = null;
 
     function setOnly(view) {
-      [els.authView, els.loadingView, els.boardView, els.emptyView].forEach(v => v.classList.add('hidden'));
+      [els.codeView, els.loadingView, els.boardView, els.emptyView].forEach(v => v.classList.add('hidden'));
       view.classList.remove('hidden');
     }
 
@@ -218,98 +130,96 @@
       showToast._timer = setTimeout(() => els.toast.classList.remove('show'), 1100);
     }
 
-    function base64UrlDecode(str) {
-      str = str.replace(/-/g, '+').replace(/_/g, '/');
-      while (str.length % 4) str += '=';
-      const bytes = Uint8Array.from(atob(str), c => c.charCodeAt(0));
-      return new TextDecoder().decode(bytes);
+    function normalizeCode(code) {
+      return code.toUpperCase().replace(/[^A-Z0-9]/g, '');
     }
 
-    function capturePayloadFromHash() {
-      const m = location.hash.match(/(?:^#|&)payload=([^&]+)/);
-      if (!m) return;
-      try {
-        const json = base64UrlDecode(decodeURIComponent(m[1]));
-        const parsed = JSON.parse(json);
-        if (!parsed || !Array.isArray(parsed.giveaways)) throw new Error('Invalid payload');
-        localStorage.setItem('winpost_pending_scan_payload', JSON.stringify(parsed));
-      } catch (e) {
-        console.error(e);
-      }
-      history.replaceState(null, '', location.pathname + location.search);
+    function b64urlToBytes(s) {
+      s = s.replace(/-/g, '+').replace(/_/g, '/');
+      while (s.length % 4) s += '=';
+      const raw = atob(s);
+      const out = new Uint8Array(raw.length);
+      for (let i=0; i<raw.length; i++) out[i] = raw.charCodeAt(i);
+      return out;
     }
 
-    function getPendingPayload() {
-      try {
-        const raw = localStorage.getItem('winpost_pending_scan_payload');
-        return raw ? JSON.parse(raw) : null;
-      } catch (e) {
-        return null;
-      }
-    }
-
-    function clearPendingPayload() {
-      localStorage.removeItem('winpost_pending_scan_payload');
-    }
-
-    function getBoardIdFromUrl() {
-      return new URLSearchParams(location.search).get('id');
-    }
-
-    async function signInMagicLink() {
-      const email = els.emailInput.value.trim();
-      if (!email) {
-        els.authStatus.textContent = 'Enter your email first.';
-        els.authStatus.classList.add('error');
-        return;
-      }
-      els.loginBtn.disabled = true;
-      els.authStatus.classList.remove('error');
-      els.authStatus.textContent = 'Sending…';
-
-      const redirectTo = location.origin + location.pathname + location.search;
-      const { error } = await sb.auth.signInWithOtp({
-        email,
-        options: { emailRedirectTo: redirectTo }
-      });
-
-      els.loginBtn.disabled = false;
-      if (error) {
-        els.authStatus.textContent = error.message;
-        els.authStatus.classList.add('error');
-      } else {
-        els.authStatus.textContent = 'Check your email and open the sign-in link.';
-      }
-    }
-
-    async function createBoardFromPending(session) {
-      const payload = getPendingPayload();
-      if (!payload) return null;
-
-      const row = {
-        data: payload
+    function parseSeed() {
+      const hash = location.hash || '';
+      const m = hash.match(/^#v1=([^.]+)\.([^.]+)\.([^.]+)$/);
+      if (!m) return null;
+      return {
+        salt: b64urlToBytes(m[1]),
+        iv: b64urlToBytes(m[2]),
+        ciphertext: b64urlToBytes(m[3])
       };
+    }
+
+    async function deriveKey(code, salt) {
+      const enc = new TextEncoder();
+      const material = await crypto.subtle.importKey(
+        'raw',
+        enc.encode(normalizeCode(code)),
+        {name:'PBKDF2'},
+        false,
+        ['deriveKey']
+      );
+      return crypto.subtle.deriveKey(
+        {
+          name:'PBKDF2',
+          salt,
+          iterations:PBKDF2_ITERATIONS,
+          hash:'SHA-256'
+        },
+        material,
+        {
+          name:'AES-GCM',
+          length:256
+        },
+        false,
+        ['decrypt']
+      );
+    }
+
+    async function decryptPayload(seed, code) {
+      const key = await deriveKey(code, seed.salt);
+      const plain = await crypto.subtle.decrypt(
+        {name:'AES-GCM', iv:seed.iv},
+        key,
+        seed.ciphertext
+      );
+      const text = new TextDecoder().decode(plain);
+      const payload = JSON.parse(text);
+      if (!payload || !Array.isArray(payload.giveaways)) throw new Error('Invalid payload');
+      return payload;
+    }
+
+    async function ensureSession() {
+      let { data: { session } } = await sb.auth.getSession();
+      if (session) return session;
+
+      const { data, error } = await sb.auth.signInAnonymously();
+      if (error) throw error;
+      return data.session;
+    }
+
+    async function createBoard(payload) {
+      await ensureSession();
 
       const { data, error } = await sb
         .from('scanboards')
-        .insert(row)
+        .insert({ data: payload })
         .select('id,data,created_at,expires_at')
         .single();
 
       if (error) throw error;
 
-      clearPendingPayload();
+      currentBoard = data;
       history.replaceState(null, '', location.pathname + '?id=' + encodeURIComponent(data.id));
       return data;
     }
 
-    async function loadBoard(session) {
-      const id = getBoardIdFromUrl();
-      if (!id) {
-        const pending = getPendingPayload();
-        if (pending) return await createBoardFromPending(session);
-        return null;
-      }
+    async function loadBoardById(id) {
+      await ensureSession();
 
       const { data, error } = await sb
         .from('scanboards')
@@ -324,8 +234,24 @@
       return data;
     }
 
-    function textAreaRows(text) {
+    function rowsFor(text) {
       return Math.min(8, Math.max(2, Math.ceil(String(text).length / 58)));
+    }
+
+    async function copyText(text, sourceEl) {
+      try {
+        await navigator.clipboard.writeText(text);
+        return true;
+      } catch (e) {
+        try {
+          sourceEl.focus();
+          if (typeof sourceEl.select === 'function') sourceEl.select();
+          if (typeof sourceEl.setSelectionRange === 'function') sourceEl.setSelectionRange(0, sourceEl.value.length);
+          return !!document.execCommand('copy');
+        } catch (_) {
+          return false;
+        }
+      }
     }
 
     function makeField(label, value, copyable=true) {
@@ -351,12 +277,12 @@
         valueEl = document.createElement('textarea');
         valueEl.className = 'value';
         valueEl.readOnly = true;
-        valueEl.rows = textAreaRows(value);
+        valueEl.rows = rowsFor(value);
         valueEl.value = value ?? '';
 
         btn.addEventListener('click', async () => {
-          try {
-            await navigator.clipboard.writeText(valueEl.value);
+          const ok = await copyText(valueEl.value, valueEl);
+          if (ok) {
             btn.textContent = 'Copied ✓';
             btn.classList.add('ok');
             showToast();
@@ -364,21 +290,8 @@
               btn.textContent = 'Copy';
               btn.classList.remove('ok');
             }, 1000);
-          } catch (e) {
-            valueEl.focus();
-            valueEl.select();
-            try {
-              document.execCommand('copy');
-              btn.textContent = 'Copied ✓';
-              btn.classList.add('ok');
-              showToast();
-              setTimeout(() => {
-                btn.textContent = 'Copy';
-                btn.classList.remove('ok');
-              }, 1000);
-            } catch (_) {
-              showToast('Text selected — use Copy');
-            }
+          } else {
+            showToast('Text selected — use Copy');
           }
         });
       } else {
@@ -434,7 +347,6 @@
           badge.textContent = g.badge;
           heroText.appendChild(badge);
         }
-
         const h2 = document.createElement('h2');
         h2.textContent = g.title;
         heroText.appendChild(h2);
@@ -459,8 +371,15 @@
 
         copyAll.addEventListener('click', async () => {
           const all = renderedFields.map(f => `${f.label}\n${f.value}`).join('\n\n');
-          try {
-            await navigator.clipboard.writeText(all);
+          const temp = document.createElement('textarea');
+          temp.value = all;
+          temp.style.position = 'fixed';
+          temp.style.left = '-9999px';
+          document.body.appendChild(temp);
+          const ok = await copyText(all, temp);
+          temp.remove();
+
+          if (ok) {
             copyAll.textContent = 'Copied ✓';
             copyAll.classList.add('ok');
             showToast();
@@ -468,22 +387,8 @@
               copyAll.textContent = 'Copy all';
               copyAll.classList.remove('ok');
             }, 1000);
-          } catch (e) {
-            const ta = document.createElement('textarea');
-            ta.value = all;
-            ta.style.position = 'fixed';
-            ta.style.left = '-9999px';
-            document.body.appendChild(ta);
-            ta.select();
-            document.execCommand('copy');
-            ta.remove();
-            copyAll.textContent = 'Copied ✓';
-            copyAll.classList.add('ok');
-            showToast();
-            setTimeout(() => {
-              copyAll.textContent = 'Copy all';
-              copyAll.classList.remove('ok');
-            }, 1000);
+          } else {
+            showToast('Copy failed');
           }
         });
 
@@ -500,6 +405,34 @@
       setOnly(els.boardView);
     }
 
+    async function unlockSeed() {
+      const code = els.codeInput.value.trim();
+      if (!code) {
+        els.codeStatus.textContent = 'Enter the code first.';
+        els.codeStatus.classList.add('error');
+        return;
+      }
+
+      els.unlockBtn.disabled = true;
+      els.codeStatus.classList.remove('error');
+      els.codeStatus.textContent = 'Opening…';
+
+      try {
+        const payload = await decryptPayload(encryptedSeed, code);
+        const board = await createBoard(payload);
+        els.codeInput.value = '';
+        renderBoard(board);
+      } catch (e) {
+        console.error(e);
+        els.codeStatus.textContent = e?.message?.includes('anonymous_provider_disabled')
+          ? 'Anonymous sign-ins are disabled in Supabase.'
+          : 'Wrong code or the ScanBoard link is invalid.';
+        els.codeStatus.classList.add('error');
+      } finally {
+        els.unlockBtn.disabled = false;
+      }
+    }
+
     async function deleteCurrentBoard() {
       if (!currentBoard?.id) return;
       if (!confirm('Delete this ScanBoard permanently?')) return;
@@ -514,7 +447,6 @@
       }
 
       currentBoard = null;
-      clearPendingPayload();
       history.replaceState(null, '', location.pathname);
       els.tabs.innerHTML = '';
       els.panels.innerHTML = '';
@@ -524,23 +456,29 @@
     }
 
     async function boot() {
-      capturePayloadFromHash();
+      encryptedSeed = parseSeed();
 
-      const { data: { session } } = await sb.auth.getSession();
-
-      if (!session) {
-        setOnly(els.authView);
-        els.signOutBtn.classList.add('hidden');
+      if (encryptedSeed) {
+        setOnly(els.codeView);
+        setTimeout(() => els.codeInput.focus(), 150);
         return;
       }
 
-      els.signOutBtn.classList.remove('hidden');
+      const id = new URLSearchParams(location.search).get('id');
+      if (!id) {
+        setOnly(els.emptyView);
+        return;
+      }
+
       setOnly(els.loadingView);
 
       try {
-        const board = await loadBoard(session);
+        const board = await loadBoardById(id);
         if (board) renderBoard(board);
-        else setOnly(els.emptyView);
+        else {
+          els.emptyView.textContent = 'This ScanBoard is unavailable in this browser session or has been deleted.';
+          setOnly(els.emptyView);
+        }
       } catch (e) {
         console.error(e);
         els.emptyView.innerHTML = '<span class="error">Could not load ScanBoard.</span>';
@@ -548,21 +486,11 @@
       }
     }
 
-    els.loginBtn.addEventListener('click', signInMagicLink);
-    els.emailInput.addEventListener('keydown', e => {
-      if (e.key === 'Enter') signInMagicLink();
+    els.unlockBtn.addEventListener('click', unlockSeed);
+    els.codeInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter') unlockSeed();
     });
     els.deleteBtn.addEventListener('click', deleteCurrentBoard);
-    els.signOutBtn.addEventListener('click', async () => {
-      await sb.auth.signOut();
-      location.href = location.origin + location.pathname;
-    });
-
-    sb.auth.onAuthStateChange((_event, session) => {
-      if (session && !currentBoard) {
-        setTimeout(boot, 0);
-      }
-    });
 
     boot();
   </script>
