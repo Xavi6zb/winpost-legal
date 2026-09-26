@@ -48,12 +48,15 @@
     .plain{white-space:pre-wrap;line-height:1.45}
     .copy-btn.ok,.copy-all.ok{background:var(--green-bg);border-color:#2f8f61;color:var(--green)}
     .actions{display:flex;gap:10px;justify-content:space-between;align-items:center;margin-top:18px;padding-top:16px;border-top:1px solid var(--line)}
+    .action-buttons{display:flex;gap:10px;align-items:center}
+    .import-btn{border:0;background:#f4f4f5;color:#0a0a0b;border-radius:11px;padding:10px 13px;font-weight:800;cursor:pointer;white-space:nowrap}
+    .import-btn:disabled{opacity:.55;cursor:default}
     .danger{border:1px solid #673030;background:var(--danger-bg);color:var(--danger);border-radius:11px;padding:10px 12px;font-weight:750;cursor:pointer}
     .muted{color:var(--muted);font-size:12px}
     .empty{text-align:center;padding:60px 20px;color:var(--muted);border:1px dashed var(--line);border-radius:18px}
     .toast{position:fixed;left:50%;bottom:max(24px,env(safe-area-inset-bottom));transform:translate(-50%,14px);opacity:0;pointer-events:none;background:var(--green-bg);border:1px solid #2f8f61;color:var(--green);padding:9px 13px;border-radius:999px;font-size:13px;font-weight:800;transition:.18s ease;z-index:100}
     .toast.show{opacity:1;transform:translate(-50%,0)}
-    @media(max-width:640px){.shell{padding:14px}.brand h1{font-size:23px}.hero{padding:14px}.hero h2{font-size:19px}.actions{align-items:stretch;flex-direction:column}.danger{width:100%}}
+    @media(max-width:640px){.shell{padding:14px}.brand h1{font-size:23px}.hero{padding:14px}.hero h2{font-size:19px}.actions{align-items:stretch;flex-direction:column}.action-buttons{width:100%;flex-direction:column}.import-btn,.danger{width:100%}}
   </style>
 </head>
 <body>
@@ -64,7 +67,6 @@
         <p id="subtitle">Private giveaway workspace</p>
       </div>
     </div>
-
     <section id="codeView" class="gate card hidden">
       <h2>Enter access code</h2>
       <p>Use the code ChatGPT gave you with this ScanBoard link.</p>
@@ -75,7 +77,6 @@
       <button id="unlockBtn" class="primary">Open ScanBoard</button>
       <div id="codeStatus" class="status"></div>
     </section>
-
     <section id="loadingView" class="card">Loading…</section>
 
     <section id="boardView" class="hidden">
@@ -83,13 +84,15 @@
       <div id="panels"></div>
       <div class="actions">
         <div class="muted">Private to this browser session and protected by Supabase RLS.</div>
-        <button id="deleteBtn" class="danger">Clear & delete ScanBoard</button>
+        <div class="action-buttons">
+          <button id="importBtn" class="import-btn">Import to Winpost</button>
+          <button id="deleteBtn" class="danger">Clear &amp; delete ScanBoard</button>
+        </div>
       </div>
     </section>
 
     <section id="emptyView" class="empty hidden">No ScanBoard loaded.</section>
   </div>
-
   <div id="toast" class="toast">Copied ✓</div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -104,9 +107,8 @@
         detectSessionInUrl: false
       }
     });
-
     const PBKDF2_ITERATIONS = 250000;
-
+    const IMPORT_TOKEN_TTL_MS = 10 * 60 * 1000;
     const els = {
       codeView: document.getElementById('codeView'),
       loadingView: document.getElementById('loadingView'),
@@ -119,10 +121,10 @@
       subtitle: document.getElementById('subtitle'),
       tabs: document.getElementById('tabs'),
       panels: document.getElementById('panels'),
+      importBtn: document.getElementById('importBtn'),
       deleteBtn: document.getElementById('deleteBtn'),
       toast: document.getElementById('toast')
     };
-
     let currentBoard = null;
     let encryptedSeed = null;
 
@@ -137,7 +139,6 @@
       clearTimeout(showToast._timer);
       showToast._timer = setTimeout(() => els.toast.classList.remove('show'), 1100);
     }
-
     function normalizeCode(code) {
       return code.toUpperCase().replace(/[^A-Z0-9]/g, '');
     }
@@ -150,7 +151,11 @@
       for (let i=0; i<raw.length; i++) out[i] = raw.charCodeAt(i);
       return out;
     }
-
+    function bytesToB64url(bytes) {
+      let raw = '';
+      bytes.forEach(byte => raw += String.fromCharCode(byte));
+      return btoa(raw).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/g, '');
+    }
     function parseSeed() {
       const hash = location.hash || '';
       const m = hash.match(/^#v1=([^.]+)\.([^.]+)\.([^.]+)$/);
@@ -161,7 +166,6 @@
         ciphertext: b64urlToBytes(m[3])
       };
     }
-
     async function deriveKey(code, salt) {
       const enc = new TextEncoder();
       const material = await crypto.subtle.importKey(
@@ -187,7 +191,6 @@
         ['decrypt']
       );
     }
-
     async function decryptPayload(seed, code) {
       const key = await deriveKey(code, seed.salt);
       const plain = await crypto.subtle.decrypt(
@@ -200,7 +203,6 @@
       if (!payload || !Array.isArray(payload.giveaways)) throw new Error('Invalid payload');
       return payload;
     }
-
     async function ensureSession() {
       let { data: { session } } = await sb.auth.getSession();
       if (session) return session;
@@ -218,7 +220,6 @@
         .insert({ data: payload })
         .select('id,data,created_at,expires_at')
         .single();
-
       if (error) throw error;
 
       currentBoard = data;
@@ -234,7 +235,6 @@
         .select('id,data,created_at,expires_at')
         .eq('id', id)
         .single();
-
       if (error) {
         if (error.code === 'PGRST116') return null;
         throw error;
@@ -245,7 +245,6 @@
     function rowsFor(text) {
       return Math.min(8, Math.max(2, Math.ceil(String(text).length / 58)));
     }
-
     async function copyText(text, sourceEl) {
       try {
         await navigator.clipboard.writeText(text);
@@ -261,7 +260,6 @@
         }
       }
     }
-
     function makeField(label, value, copyable=true) {
       const wrap = document.createElement('div');
       wrap.className = 'field';
@@ -273,7 +271,6 @@
       lab.className = 'label';
       lab.textContent = label;
       head.appendChild(lab);
-
       let valueEl;
       if (copyable) {
         const btn = document.createElement('button');
@@ -287,7 +284,6 @@
         valueEl.readOnly = true;
         valueEl.rows = rowsFor(value);
         valueEl.value = value ?? '';
-
         btn.addEventListener('click', async () => {
           const ok = await copyText(valueEl.value, valueEl);
           if (ok) {
@@ -307,7 +303,6 @@
         valueEl.className = 'plain';
         valueEl.textContent = value ?? '';
       }
-
       wrap.appendChild(head);
       wrap.appendChild(valueEl);
       return wrap;
@@ -321,7 +316,6 @@
         fields: Array.isArray(g.fields) ? g.fields : []
       };
     }
-
     function renderBoard(board) {
       currentBoard = board;
       els.tabs.innerHTML = '';
@@ -334,7 +328,6 @@
       }
 
       els.subtitle.textContent = `${giveaways.length} approved giveaway${giveaways.length === 1 ? '' : 's'}`;
-
       giveaways.forEach((g, idx) => {
         const tab = document.createElement('button');
         tab.className = 'tab-btn' + (idx === 0 ? ' active' : '');
@@ -347,7 +340,6 @@
 
         const hero = document.createElement('div');
         hero.className = 'hero';
-
         const heroText = document.createElement('div');
         if (g.badge) {
           const badge = document.createElement('span');
@@ -358,7 +350,6 @@
         const h2 = document.createElement('h2');
         h2.textContent = g.title;
         heroText.appendChild(h2);
-
         const copyAll = document.createElement('button');
         copyAll.className = 'copy-all';
         copyAll.type = 'button';
@@ -367,7 +358,6 @@
         hero.appendChild(heroText);
         hero.appendChild(copyAll);
         panel.appendChild(hero);
-
         const renderedFields = [];
         g.fields.forEach(f => {
           const label = f.label ?? '';
@@ -376,7 +366,6 @@
           panel.appendChild(makeField(label, value, copyable));
           renderedFields.push({label, value});
         });
-
         copyAll.addEventListener('click', async () => {
           const all = renderedFields.map(f => `${f.label}\n${f.value}`).join('\n\n');
           const temp = document.createElement('textarea');
@@ -386,7 +375,6 @@
           document.body.appendChild(temp);
           const ok = await copyText(all, temp);
           temp.remove();
-
           if (ok) {
             copyAll.textContent = 'Copied ✓';
             copyAll.classList.add('ok');
@@ -399,7 +387,6 @@
             showToast('Copy failed');
           }
         });
-
         tab.addEventListener('click', () => {
           document.querySelectorAll('.tab-btn').forEach(x => x.classList.remove('active'));
           document.querySelectorAll('.giveaway').forEach(x => x.classList.remove('active'));
@@ -415,7 +402,6 @@
 
     async function pasteAccessCode() {
       els.codeStatus.classList.remove('error');
-
       try {
         if (!navigator.clipboard || !navigator.clipboard.readText) {
           throw new Error('Clipboard API unavailable');
@@ -426,7 +412,6 @@
           .toUpperCase()
           .replace(/[^A-Z0-9]/g, '')
           .slice(0, 8);
-
         if (!cleaned) {
           els.codeStatus.textContent = 'Clipboard does not contain a valid code.';
           els.codeStatus.classList.add('error');
@@ -441,7 +426,6 @@
         els.pasteBtn.textContent = 'Pasted ✓';
         els.pasteBtn.classList.add('ok');
         els.codeStatus.textContent = '';
-
         setTimeout(() => {
           els.pasteBtn.textContent = 'Paste';
           els.pasteBtn.classList.remove('ok');
@@ -451,7 +435,6 @@
         els.codeStatus.textContent = 'Clipboard access is blocked here. Hold the field and tap Paste.';
       }
     }
-
     async function unlockSeed() {
       const code = els.codeInput.value.trim();
       if (!code) {
@@ -463,7 +446,6 @@
       els.unlockBtn.disabled = true;
       els.codeStatus.classList.remove('error');
       els.codeStatus.textContent = 'Opening…';
-
       try {
         const payload = await decryptPayload(encryptedSeed, code);
         const board = await createBoard(payload);
@@ -480,6 +462,42 @@
       }
     }
 
+    async function importCurrentBoard() {
+      if (!currentBoard?.id || !Array.isArray(currentBoard?.data?.giveaways) || !currentBoard.data.giveaways.length) {
+        showToast('Nothing to import');
+        return;
+      }
+
+      els.importBtn.disabled = true;
+      const originalLabel = els.importBtn.textContent;
+      els.importBtn.textContent = 'Preparing…';
+      try {
+        await ensureSession();
+        const tokenBytes = new Uint8Array(32);
+        crypto.getRandomValues(tokenBytes);
+        const token = bytesToB64url(tokenBytes);
+        const expiresAt = new Date(Date.now() + IMPORT_TOKEN_TTL_MS).toISOString();
+
+        const { error } = await sb
+          .from('scanboards')
+          .update({ import_token: token, import_expires_at: expiresAt })
+          .eq('id', currentBoard.id);
+        if (error) throw error;
+
+        els.importBtn.textContent = 'Opening Winpost…';
+        showToast('Opening Winpost…');
+        window.location.href = `winpost://scanboard-import?token=${encodeURIComponent(token)}`;
+      } catch (e) {
+        console.error(e);
+        alert(e?.message || 'Could not prepare this ScanBoard for Winpost.');
+      } finally {
+        setTimeout(() => {
+          els.importBtn.disabled = false;
+          els.importBtn.textContent = originalLabel;
+        }, 1200);
+      }
+    }
+
     async function deleteCurrentBoard() {
       if (!currentBoard?.id) return;
       if (!confirm('Delete this ScanBoard permanently?')) return;
@@ -492,7 +510,6 @@
         alert(error.message);
         return;
       }
-
       currentBoard = null;
       history.replaceState(null, '', location.pathname);
       els.tabs.innerHTML = '';
@@ -510,7 +527,6 @@
         setTimeout(() => els.codeInput.focus(), 150);
         return;
       }
-
       const id = new URLSearchParams(location.search).get('id');
       if (!id) {
         setOnly(els.emptyView);
@@ -518,7 +534,6 @@
       }
 
       setOnly(els.loadingView);
-
       try {
         const board = await loadBoardById(id);
         if (board) renderBoard(board);
@@ -532,12 +547,12 @@
         setOnly(els.emptyView);
       }
     }
-
     els.pasteBtn.addEventListener('click', pasteAccessCode);
     els.unlockBtn.addEventListener('click', unlockSeed);
     els.codeInput.addEventListener('keydown', e => {
       if (e.key === 'Enter') unlockSeed();
     });
+    els.importBtn.addEventListener('click', importCurrentBoard);
     els.deleteBtn.addEventListener('click', deleteCurrentBoard);
 
     boot();
