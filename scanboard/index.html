@@ -28,7 +28,10 @@
     .code-row .code-input{flex:1;min-width:0}
     .paste-btn{border:1px solid var(--line);background:var(--card2);color:var(--text);border-radius:12px;padding:0 14px;font-weight:750;cursor:pointer;white-space:nowrap}
     .paste-btn.ok{background:var(--green-bg);border-color:#2f8f61;color:var(--green)}
-    .primary{width:100%;margin-top:10px;border:0;background:#f4f4f5;color:#0a0a0b;border-radius:12px;padding:12px 14px;font-weight:800;cursor:pointer}
+    .gate-actions{display:grid;gap:8px;margin-top:10px}
+    .primary{width:100%;margin-top:0;border:0;background:#f4f4f5;color:#0a0a0b;border-radius:12px;padding:12px 14px;font-weight:800;cursor:pointer}
+    .direct-import{width:100%;border:1px solid #6b541a;background:#241d0c;color:#f4c34f;border-radius:12px;padding:12px 14px;font-weight:800;cursor:pointer}
+    .primary:disabled,.direct-import:disabled{opacity:.55;cursor:default}
     .status{margin-top:12px;color:var(--muted);font-size:13px;min-height:18px}
     .error{color:#ff9a9a}
     .hidden{display:none!important}
@@ -74,7 +77,10 @@
         <input id="codeInput" class="code-input" inputmode="text" autocomplete="one-time-code" placeholder="XXXX-XXXX" maxlength="16">
         <button id="pasteBtn" class="paste-btn" type="button">Paste</button>
       </div>
-      <button id="unlockBtn" class="primary">Open ScanBoard</button>
+      <div class="gate-actions">
+        <button id="unlockBtn" class="primary">Open ScanBoard</button>
+        <button id="directImportBtn" class="direct-import" type="button">Import all directly to Winpost</button>
+      </div>
       <div id="codeStatus" class="status"></div>
     </section>
     <section id="loadingView" class="card">Loading…</section>
@@ -85,7 +91,7 @@
       <div class="actions">
         <div class="muted">Private to this browser session and protected by Supabase RLS.</div>
         <div class="action-buttons">
-          <button id="importBtn" class="import-btn">Import to Winpost</button>
+          <button id="importBtn" class="import-btn">Import all to Winpost</button>
           <button id="deleteBtn" class="danger">Clear &amp; delete ScanBoard</button>
         </div>
       </div>
@@ -117,6 +123,7 @@
       codeInput: document.getElementById('codeInput'),
       pasteBtn: document.getElementById('pasteBtn'),
       unlockBtn: document.getElementById('unlockBtn'),
+      directImportBtn: document.getElementById('directImportBtn'),
       codeStatus: document.getElementById('codeStatus'),
       subtitle: document.getElementById('subtitle'),
       tabs: document.getElementById('tabs'),
@@ -435,7 +442,7 @@
         els.codeStatus.textContent = 'Clipboard access is blocked here. Hold the field and tap Paste.';
       }
     }
-    async function unlockSeed() {
+    async function unlockSeed(importAfterUnlock = false) {
       const code = els.codeInput.value.trim();
       if (!code) {
         els.codeStatus.textContent = 'Enter the code first.';
@@ -444,13 +451,19 @@
       }
 
       els.unlockBtn.disabled = true;
+      els.directImportBtn.disabled = true;
       els.codeStatus.classList.remove('error');
-      els.codeStatus.textContent = 'Opening…';
+      els.codeStatus.textContent = importAfterUnlock ? 'Opening and importing…' : 'Opening…';
       try {
         const payload = await decryptPayload(encryptedSeed, code);
         const board = await createBoard(payload);
         els.codeInput.value = '';
-        renderBoard(board);
+
+        if (importAfterUnlock) {
+          await importCurrentBoard(els.directImportBtn);
+        } else {
+          renderBoard(board);
+        }
       } catch (e) {
         console.error(e);
         els.codeStatus.textContent = e?.message?.includes('anonymous_provider_disabled')
@@ -459,18 +472,20 @@
         els.codeStatus.classList.add('error');
       } finally {
         els.unlockBtn.disabled = false;
+        els.directImportBtn.disabled = false;
       }
     }
 
-    async function importCurrentBoard() {
+    async function importCurrentBoard(triggerButton = els.importBtn) {
       if (!currentBoard?.id || !Array.isArray(currentBoard?.data?.giveaways) || !currentBoard.data.giveaways.length) {
         showToast('Nothing to import');
         return;
       }
 
-      els.importBtn.disabled = true;
-      const originalLabel = els.importBtn.textContent;
-      els.importBtn.textContent = 'Preparing…';
+      const button = triggerButton || els.importBtn;
+      button.disabled = true;
+      const originalLabel = button.textContent;
+      button.textContent = 'Preparing…';
       try {
         await ensureSession();
         const tokenBytes = new Uint8Array(32);
@@ -484,7 +499,7 @@
           .eq('id', currentBoard.id);
         if (error) throw error;
 
-        els.importBtn.textContent = 'Opening Winpost…';
+        button.textContent = 'Opening Winpost…';
         showToast('Opening Winpost…');
         window.location.href = `winpost://scanboard-import?token=${encodeURIComponent(token)}`;
       } catch (e) {
@@ -492,8 +507,8 @@
         alert(e?.message || 'Could not prepare this ScanBoard for Winpost.');
       } finally {
         setTimeout(() => {
-          els.importBtn.disabled = false;
-          els.importBtn.textContent = originalLabel;
+          button.disabled = false;
+          button.textContent = originalLabel;
         }, 1200);
       }
     }
@@ -548,11 +563,12 @@
       }
     }
     els.pasteBtn.addEventListener('click', pasteAccessCode);
-    els.unlockBtn.addEventListener('click', unlockSeed);
+    els.unlockBtn.addEventListener('click', () => unlockSeed(false));
+    els.directImportBtn.addEventListener('click', () => unlockSeed(true));
     els.codeInput.addEventListener('keydown', e => {
-      if (e.key === 'Enter') unlockSeed();
+      if (e.key === 'Enter') unlockSeed(false);
     });
-    els.importBtn.addEventListener('click', importCurrentBoard);
+    els.importBtn.addEventListener('click', () => importCurrentBoard(els.importBtn));
     els.deleteBtn.addEventListener('click', deleteCurrentBoard);
 
     boot();
