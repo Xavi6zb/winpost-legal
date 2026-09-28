@@ -459,10 +459,9 @@
         const board = await createBoard(payload);
         els.codeInput.value = '';
 
+        renderBoard(board);
         if (importAfterUnlock) {
-          await importCurrentBoard(els.directImportBtn);
-        } else {
-          renderBoard(board);
+          await importCurrentBoard(els.importBtn);
         }
       } catch (e) {
         console.error(e);
@@ -493,11 +492,15 @@
         const token = bytesToB64url(tokenBytes);
         const expiresAt = new Date(Date.now() + IMPORT_TOKEN_TTL_MS).toISOString();
 
-        const { error } = await sb
+        const boardID = currentBoard.id;
+        const { data, error } = await sb
           .from('scanboards')
           .update({ import_token: token, import_expires_at: expiresAt })
-          .eq('id', currentBoard.id);
+          .eq('id', boardID)
+          .select('id')
+          .single();
         if (error) throw error;
+        if (data?.id !== boardID) throw new Error('Could not save the import token. Please reopen this ScanBoard and try again.');
 
         button.textContent = 'Opening Winpost…';
         showToast('Opening Winpost…');
