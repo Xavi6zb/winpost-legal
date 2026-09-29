@@ -35,6 +35,9 @@
     .status{margin-top:12px;color:var(--muted);font-size:13px;min-height:18px}
     .error{color:#ff9a9a}
     .hidden{display:none!important}
+    .file-tools{margin-bottom:16px}
+    .file-tools input{max-width:100%;margin-top:8px;color:var(--muted)}
+    .scan-cover{display:block;width:100%;max-height:320px;object-fit:contain;border-radius:14px;margin-bottom:12px}
     .tabs{display:flex;gap:8px;overflow-x:auto;padding:2px 0 14px;-webkit-overflow-scrolling:touch}
     .tab-btn{border:1px solid var(--line);background:var(--card);color:var(--muted);border-radius:11px;padding:10px 13px;font-weight:700;white-space:nowrap;cursor:pointer}
     .tab-btn.active{background:#f4f4f5;color:#0a0a0b;border-color:#f4f4f5}
@@ -69,6 +72,11 @@
         <h1>Winpost ScanBoard</h1>
         <p id="subtitle">Private giveaway workspace</p>
       </div>
+    </div>
+    <div class="file-tools">
+      <label class="muted" for="scanFile">ScanBoard with covers? Open the encrypted .txt file:</label><br>
+      <input id="scanFile" type="file" accept=".txt,.winpostscan,text/plain">
+      <div id="fileStatus" class="status" role="status"></div>
     </div>
     <section id="codeView" class="gate card hidden">
       <h2>Enter access code</h2>
@@ -115,7 +123,18 @@
     });
     const PBKDF2_ITERATIONS = 250000;
     const IMPORT_TOKEN_TTL_MS = 10 * 60 * 1000;
+    const MAX_PAYLOAD_BYTES = 6 * 1024 * 1024;
+    const MAX_FILE_BYTES = 9 * 1024 * 1024;
+    const MAX_COVER_BYTES = 2 * 1024 * 1024;
+    const CATEGORY_LABELS = {
+      travel:'Travel', tech:'Tech', gaming:'Gaming', fashion:'Fashion', beauty:'Beauty',
+      food_drink:'Food & Drink', sports:'Sports', entertainment:'Entertainment', photography:'Photography',
+      home:'Home', money_gift_cards:'Money & Gift Cards', automotive:'Automotive', other:'Other'
+    };
+    const EFFORT_LABELS = {1:'Very easy · < 1 min', 2:'Easy · ~1–2 min', 3:'Medium · ~2–5 min', 4:'Hard · 5+ min'};
     const els = {
+      scanFile: document.getElementById('scanFile'),
+      fileStatus: document.getElementById('fileStatus'),
       codeView: document.getElementById('codeView'),
       loadingView: document.getElementById('loadingView'),
       boardView: document.getElementById('boardView'),
@@ -163,15 +182,45 @@
       bytes.forEach(byte => raw += String.fromCharCode(byte));
       return btoa(raw).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/g, '');
     }
-    function parseSeed() {
-      const hash = location.hash || '';
+    function parseSeedText(hash) {
+      if (hash.length > MAX_FILE_BYTES) throw new Error('ScanBoard is too large. Split it into smaller boards.');
       const m = hash.match(/^#v1=([^.]+)\.([^.]+)\.([^.]+)$/);
       if (!m) return null;
-      return {
+      if (!m.slice(1).every(part => /^[A-Za-z0-9_-]+$/.test(part))) return null;
+      const seed = {
         salt: b64urlToBytes(m[1]),
         iv: b64urlToBytes(m[2]),
         ciphertext: b64urlToBytes(m[3])
       };
+      if (seed.salt.length !== 16 || seed.iv.length !== 12 || seed.ciphertext.length < 16) return null;
+      return seed;
+    }
+    function parseSeed() {
+      return parseSeedText(location.hash || '');
+    }
+    async function openEncryptedFile(file) {
+      if (!file) return;
+      els.scanFile.disabled = true;
+      els.fileStatus.classList.remove('error');
+      try {
+        if (file.size > MAX_FILE_BYTES) throw new Error('File is too large. Ask for smaller ScanBoards.');
+        const seed = parseSeedText((await file.text()).trim());
+        if (!seed) throw new Error('Invalid file. Expected an encrypted Winpost ScanBoard (#v1=…).');
+        encryptedSeed = seed;
+        currentBoard = null;
+        history.replaceState(null, '', location.pathname);
+        els.codeInput.value = '';
+        els.codeStatus.textContent = '';
+        els.fileStatus.textContent = 'Encrypted file ready. Enter its separate access code below.';
+        setOnly(els.codeView);
+        els.codeInput.focus();
+      } catch (e) {
+        els.fileStatus.textContent = e.message || 'Could not open this file.';
+        els.fileStatus.classList.add('error');
+      } finally {
+        els.scanFile.disabled = false;
+        els.scanFile.value = '';
+      }
     }
     async function deriveKey(code, salt) {
       const enc = new TextEncoder();
@@ -205,9 +254,11 @@
         key,
         seed.ciphertext
       );
+      if (plain.byteLength > MAX_PAYLOAD_BYTES) throw new Error('ScanBoard is too large. Split it into smaller boards.');
       const text = new TextDecoder().decode(plain);
       const payload = JSON.parse(text);
-      if (!payload || !Array.isArray(payload.giveaways)) throw new Error('Invalid payload');
+      if (!payload || !Array.isArray(payload.giveaways) || !payload.giveaways.length
+          || !payload.giveaways.every(g => g && typeof g === 'object' && Array.isArray(g.fields))) throw new Error('Invalid payload');
       return payload;
     }
     async function ensureSession() {
@@ -320,8 +371,25 @@
         tab: g.tab || g.prize_title || g.title || `Giveaway ${i+1}`,
         badge: g.badge || g.who_can_enter || '',
         title: g.title || g.original_title || g.prize_title || `Giveaway ${i+1}`,
-        fields: Array.isArray(g.fields) ? g.fields : []
+        fields: Array.isArray(g.fields) ? g.fields : [],
+        categories: Array.isArray(g.categories) ? [...new Set(g.categories.filter(x => typeof x === 'string')
+          .map(x => x.trim().toLowerCase()).filter(x => Object.hasOwn(CATEGORY_LABELS, x)))] : [],
+        entry_effort: Number.isInteger(g.entry_effort) && g.entry_effort >= 1 && g.entry_effort <= 4 ? g.entry_effort : null,
+        cover: g.cover
       };
+    }
+    function coverDataURL(cover) {
+      if (!cover || !['image/jpeg', 'image/png'].includes(cover.mime_type)
+          || typeof cover.data_base64 !== 'string' || !cover.data_base64.length
+          || cover.data_base64.length > Math.ceil(MAX_COVER_BYTES / 3) * 4
+          || !/^[A-Za-z0-9+/]+={0,2}$/.test(cover.data_base64)) return null;
+      try {
+        const raw = atob(cover.data_base64);
+        if (raw.length > MAX_COVER_BYTES) return null;
+        const signature = cover.mime_type === 'image/png' ? '\x89PNG\r\n\x1a\n' : '\xff\xd8\xff';
+        if (!raw.startsWith(signature)) return null;
+        return `data:${cover.mime_type};base64,${cover.data_base64}`;
+      } catch (_) { return null; }
     }
     function renderBoard(board) {
       currentBoard = board;
@@ -365,6 +433,18 @@
         hero.appendChild(heroText);
         hero.appendChild(copyAll);
         panel.appendChild(hero);
+        const coverURL = coverDataURL(g.cover);
+        if (coverURL) {
+          const image = document.createElement('img');
+          image.className = 'scan-cover';
+          image.alt = 'AI cover — review before publishing';
+          image.loading = 'lazy';
+          image.src = coverURL;
+          image.addEventListener('error', () => image.remove());
+          panel.appendChild(image);
+        }
+        if (g.categories.length) panel.appendChild(makeField('Categories', g.categories.map(x => CATEGORY_LABELS[x]).join(', '), false));
+        if (g.entry_effort) panel.appendChild(makeField('Estimated entry effort', EFFORT_LABELS[g.entry_effort], false));
         const renderedFields = [];
         g.fields.forEach(f => {
           const label = f.label ?? '';
@@ -452,6 +532,7 @@
 
       els.unlockBtn.disabled = true;
       els.directImportBtn.disabled = true;
+      els.scanFile.disabled = true;
       els.codeStatus.classList.remove('error');
       els.codeStatus.textContent = importAfterUnlock ? 'Opening and importing…' : 'Opening…';
       try {
@@ -472,6 +553,7 @@
       } finally {
         els.unlockBtn.disabled = false;
         els.directImportBtn.disabled = false;
+        els.scanFile.disabled = false;
       }
     }
 
@@ -538,7 +620,11 @@
     }
 
     async function boot() {
-      encryptedSeed = parseSeed();
+      try { encryptedSeed = parseSeed(); }
+      catch (_) {
+        els.fileStatus.textContent = 'Invalid or oversized link. Use an encrypted ScanBoard file.';
+        els.fileStatus.classList.add('error');
+      }
 
       if (encryptedSeed) {
         setOnly(els.codeView);
@@ -565,6 +651,7 @@
         setOnly(els.emptyView);
       }
     }
+    els.scanFile.addEventListener('change', () => openEncryptedFile(els.scanFile.files[0]));
     els.pasteBtn.addEventListener('click', pasteAccessCode);
     els.unlockBtn.addEventListener('click', () => unlockSeed(false));
     els.directImportBtn.addEventListener('click', () => unlockSeed(true));
