@@ -8,27 +8,45 @@
 <style>
 :root{color-scheme:light dark;--bg:#f6f6f6;--card:#fff;--text:#111;--muted:#666;--line:#e5e5e5;--accent:#f5c400}
 @media(prefers-color-scheme:dark){:root{--bg:#0b0b0b;--card:#151515;--text:#f5f5f5;--muted:#aaa;--line:#2a2a2a;--accent:#ffd426}}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",sans-serif;line-height:1.6}
-.wrap{width:min(860px,calc(100% - 32px));margin:auto;padding:42px 0 64px}header{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:28px}
-.brand{display:flex;align-items:center;gap:12px;font-weight:800;font-size:22px;letter-spacing:-.02em;color:var(--text);text-decoration:none}.logo{width:38px;height:38px;border-radius:11px;background:var(--accent);display:grid;place-items:center;color:#111;font-weight:900}
-.header-actions{display:flex;align-items:center;gap:16px;flex-wrap:wrap}nav{display:flex;gap:14px;flex-wrap:wrap}nav a,.text-link{color:var(--text);text-decoration:none;font-weight:650}nav a:hover,.text-link:hover{text-decoration:underline}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",sans-serif;line-height:1.6}
+.wrap{width:min(860px,calc(100% - 32px));margin:auto;padding:42px 0 64px}
+header{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:28px}
+.brand{display:flex;align-items:center;gap:12px;font-weight:800;font-size:22px;letter-spacing:-.02em;color:var(--text);text-decoration:none}
+.header-actions{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+nav{display:flex;gap:14px;flex-wrap:wrap}
+nav a,.text-link{color:var(--text);text-decoration:none;font-weight:650}
+nav a:hover,.text-link:hover{text-decoration:underline}
 .language-switcher{display:inline-flex;align-items:center;gap:2px;padding:3px;border:1px solid var(--line);border-radius:999px;background:var(--card);box-shadow:0 3px 12px rgba(0,0,0,.04)}
 .language-switcher button{appearance:none;border:0;background:transparent;color:var(--muted);font:inherit;font-size:12px;font-weight:800;letter-spacing:.03em;line-height:1;min-width:36px;padding:9px 10px;border-radius:999px;cursor:pointer;transition:background .15s ease,color .15s ease,transform .15s ease}
-.language-switcher button:hover{color:var(--text)}.language-switcher button:active{transform:scale(.96)}.language-switcher button[aria-pressed="true"]{background:var(--accent);color:#111}
+.language-switcher button:hover{color:var(--text)}
+.language-switcher button:active{transform:scale(.96)}
+.language-switcher button[aria-pressed="true"]{background:var(--accent);color:#111}
 .card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:28px;box-shadow:0 8px 28px rgba(0,0,0,.04)}
-h1{margin:0 0 8px;font-size:clamp(32px,6vw,52px);line-height:1.05;letter-spacing:-.04em}h2{margin-top:34px;margin-bottom:8px;font-size:22px}h3{margin-top:24px;margin-bottom:6px;font-size:17px}
-.muted{color:var(--muted)}.eyebrow{color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:12px;margin-bottom:12px}
+h1{margin:0 0 8px;font-size:clamp(32px,6vw,52px);line-height:1.05;letter-spacing:-.04em}
+h2{margin-top:34px;margin-bottom:8px;font-size:22px}
+h3{margin-top:24px;margin-bottom:6px;font-size:17px}
+.muted{color:var(--muted)}
+.eyebrow{color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:12px;margin-bottom:12px}
 .notice{margin:18px 0;padding:16px;border:1px solid var(--line);border-radius:14px;background:var(--card)}
-.links{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:26px}.button{display:block;padding:16px;border:1px solid var(--line);border-radius:15px;color:var(--text);text-decoration:none;font-weight:750;background:var(--card)}
-.button:hover{border-color:var(--accent)}ul{padding-left:22px}footer{margin-top:28px;color:var(--muted);font-size:14px;text-align:center}
+.links{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:26px}
+.button{display:block;padding:16px;border:1px solid var(--line);border-radius:15px;color:var(--text);text-decoration:none;font-weight:750;background:var(--card)}
+.button:hover{border-color:var(--accent)}
+ul{padding-left:22px}
+footer{margin-top:28px;color:var(--muted);font-size:14px;text-align:center}
 [hidden]{display:none!important}
-@media(max-width:640px){header{align-items:flex-start;flex-direction:column}.header-actions{width:100%;justify-content:space-between;gap:12px}.links{grid-template-columns:1fr}.card{padding:22px;border-radius:18px}}
+@media(max-width:640px){
+  header{align-items:flex-start;flex-direction:column}
+  .header-actions{width:100%;justify-content:space-between;gap:12px}
+  .links{grid-template-columns:1fr}
+  .card{padding:22px;border-radius:18px}
+}
 </style>
 </head>
 <body>
 <div class="wrap">
 <header>
-<a class="brand" href="index.html"><span class="logo">W</span>Winpost</a>
+<a class="brand" href="index.html">Winpost</a>
 <div class="header-actions">
 <nav>
 <a href="privacy.html"><span data-language-label="en">Privacy</span><span data-language-label="es" hidden>Privacidad</span><span data-language-label="ca" hidden>Privacitat</span></a>
@@ -61,7 +79,8 @@ h1{margin:0 0 8px;font-size:clamp(32px,6vw,52px);line-height:1.05;letter-spacing
 <h3>Notifications and device functionality</h3>
 <p>Winpost may process push notification tokens and related notification settings when needed to deliver notifications you request, such as giveaway reminders, creator alerts, featured alerts, or moderator notifications. Winpost does not use these tokens for advertising tracking.</p>
 
-<h3>Optional recommended notifications</h3><p>If you separately allow recommendations based on activity and notifications, Winpost uses giveaway opens and saves to derive up to three preferred categories on your device. These category interests are sent with push preferences to choose relevant giveaways. The analytics identifier is not used to link your analytics history to your push token. You can withdraw recommendation consent through Winpost’s privacy controls or disable notifications in iOS Settings.</p>
+<h3>Optional recommended notifications</h3>
+<p>If you separately allow recommendations based on activity and notifications, Winpost uses giveaway opens and saves to derive up to three preferred categories on your device. These category interests are sent with push preferences to choose relevant giveaways. The analytics identifier is not used to link your analytics history to your push token. You can withdraw recommendation consent through Winpost’s privacy controls or disable notifications in iOS Settings.</p>
 
 <h3>Purchase information</h3>
 <p>If you subscribe to Winpost Plus, Winpost may process subscription product identifiers, entitlement status, purchase or restore events, and related subscription information to provide paid functionality and understand subscription performance. Payments are processed by Apple through the App Store. Winpost does not receive your full payment card details.</p>
@@ -168,7 +187,8 @@ h1{margin:0 0 8px;font-size:clamp(32px,6vw,52px);line-height:1.05;letter-spacing
 <h3>Notificaciones y funcionalidad del dispositivo</h3>
 <p>Winpost puede tratar tokens de notificaciones push y ajustes relacionados cuando sea necesario para entregar notificaciones que hayas solicitado, como recordatorios de sorteos, alertas de creadores, alertas de destacados o notificaciones para moderadores. Winpost no utiliza estos tokens para seguimiento publicitario.</p>
 
-<h3>Notificaciones recomendadas opcionales</h3><p>Si permites por separado las recomendaciones basadas en actividad y las notificaciones, Winpost utiliza aperturas y guardados de sorteos para calcular hasta tres categorías preferidas en el dispositivo. Estas categorías se envían con las preferencias push para seleccionar sorteos relevantes. El identificador analítico no se utiliza para vincular tu historial de analíticas al token push. Puedes retirar el consentimiento para recomendaciones en los controles de privacidad de Winpost o desactivar las notificaciones en Ajustes de iOS.</p>
+<h3>Notificaciones recomendadas opcionales</h3>
+<p>Si permites por separado las recomendaciones basadas en actividad y las notificaciones, Winpost utiliza aperturas y guardados de sorteos para calcular hasta tres categorías preferidas en el dispositivo. Estas categorías se envían con las preferencias push para seleccionar sorteos relevantes. El identificador analítico no se utiliza para vincular tu historial de analíticas al token push. Puedes retirar el consentimiento para recomendaciones en los controles de privacidad de Winpost o desactivar las notificaciones en Ajustes de iOS.</p>
 
 <h3>Información de compras</h3>
 <p>Si te suscribes a Winpost Plus, Winpost puede tratar identificadores de productos de suscripción, el estado de tus derechos de acceso, eventos de compra o restauración e información relacionada con la suscripción para proporcionar funciones de pago y comprender el rendimiento de las suscripciones. Los pagos los procesa Apple a través del App Store. Winpost no recibe los datos completos de tu tarjeta de pago.</p>
@@ -275,7 +295,8 @@ h1{margin:0 0 8px;font-size:clamp(32px,6vw,52px);line-height:1.05;letter-spacing
 <h3>Notificacions i funcionalitat del dispositiu</h3>
 <p>Winpost pot tractar tokens de notificacions push i ajustos relacionats quan sigui necessari per lliurar notificacions que hagis sol·licitat, com ara recordatoris de sortejos, alertes de creadors, alertes de destacats o notificacions per a moderadors. Winpost no utilitza aquests tokens per al seguiment publicitari.</p>
 
-<h3>Notificacions recomanades opcionals</h3><p>Si permets per separat les recomanacions basades en activitat i les notificacions, Winpost utilitza obertures i desats de sortejos per calcular fins a tres categories preferides al dispositiu. Aquestes categories s’envien amb les preferències push per seleccionar sortejos rellevants. L’identificador analític no s’utilitza per vincular el teu historial d’analítiques al token push. Pots retirar el consentiment per a recomanacions als controls de privacitat de Winpost o desactivar les notificacions als Ajustos d’iOS.</p>
+<h3>Notificacions recomanades opcionals</h3>
+<p>Si permets per separat les recomanacions basades en activitat i les notificacions, Winpost utilitza obertures i desats de sortejos per calcular fins a tres categories preferides al dispositiu. Aquestes categories s’envien amb les preferències push per seleccionar sortejos rellevants. L’identificador analític no s’utilitza per vincular el teu historial d’analítiques al token push. Pots retirar el consentiment per a recomanacions als controls de privacitat de Winpost o desactivar les notificacions als Ajustos d’iOS.</p>
 
 <h3>Informació de compres</h3>
 <p>Si et subscrius a Winpost Plus, Winpost pot tractar identificadors de productes de subscripció, l'estat dels drets d'accés, esdeveniments de compra o restauració i informació relacionada amb la subscripció per proporcionar funcions de pagament i entendre el rendiment de les subscripcions. Els pagaments els processa Apple a través de l'App Store. Winpost no rep les dades completes de la teva targeta de pagament.</p>
